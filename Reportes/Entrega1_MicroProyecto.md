@@ -62,15 +62,67 @@ artículo citado**.
 
 ## 3. Descripción de los conjuntos de datos
 
+### 3.1 Exploración de fuentes candidatas
+
+Antes de decidir se evaluaron cuatro fuentes bajo la restricción de dominio
+(**Computer Science / arXiv**). La tabla resume el hallazgo crítico y la decisión:
+
+| Dataset | Dominio | Hallazgo crítico | Decisión |
+|---|---|---|---|
+| **SciCite** | Mayormente biomédico | Solo 3 clases de *función* de cita; ~1.7% de citas enlazables a arXiv | Descartado |
+| **ACL-ARC** | CS / NLP | Muy pequeño (~1.9k); 65% de citas "External"; abstract del citado ~21% | Referencia secundaria |
+| **MultiCite** | CS / NLP | IDs de paper anonimizados (hash de 30 chars) → el citado **no es resoluble** | Descartado |
+| **unarXive** | **arXiv (CS-heavy)** | Ninguno crítico; texto completo + citas resueltas a IDs reales | **Seleccionado** |
+
+**Por qué unarXive:** es nativo de arXiv (filtrable por `discipline == "Computer
+Science"`), trae el texto completo estructurado y resuelve cada cita a
+identificadores reales del artículo citado (OpenAlex / DOI), lo que habilita el
+enriquecimiento con título y abstract. Además, el mismo corpus se reutiliza en el
+Proyecto de Grado (recuperación de texto completo por el arXiv ID del citado).
+
+> El detalle completo de la exploración y los motivos de descarte está en
+> `Dataset/Resumen_Seleccion_Dataset.md`.
+
+### 3.2 Fuentes de datos
+
 **Fuente primaria — unarXive (open subset):** corpus de arXiv preprocesado para NLP
-(texto completo estructurado + red de citas). Zenodo, registro 7752615, licencia
-CC BY-SA 4.0.
+(texto completo estructurado + red de citas). Zenodo, registro 7752615,
+`unarXive_230324_open_subset.tar.xz` (4.8 GB), licencia CC BY-SA 4.0.
 
 **Fuente de enriquecimiento — OpenAlex:** título y abstract del artículo citado,
-resueltos por su `open_alex_id`. Como un párrafo (`citation_context`) puede
-contener varias citas, a nivel de registro se toma la primera cita del párrafo
-que tenga abstract disponible (y si ninguna lo tiene, la primera con título);
-esto maximiza la cobertura de abstract del dataset.
+resueltos por su `open_alex_id` (el abstract se reconstruye desde el
+`abstract_inverted_index`). Como un párrafo (`citation_context`) puede contener
+varias citas, a nivel de registro se toma la **primera cita del párrafo que tenga
+abstract** disponible (y si ninguna lo tiene, la primera con título); esto maximiza
+la cobertura de abstract del dataset.
+
+### 3.3 Construcción del dataset (pipeline en 3 etapas)
+
+El dataset se construyó con un pipeline reproducible (scripts en `scripts/`):
+
+```text
+unarXive (corpus local, CS)
+        │  Etapa 1 — harvest_candidates.py
+        ▼
+Candidatos con excedente por clase   (7.103 candidatos)
+        │  Etapa 2 — enrich_select.py  (OpenAlex: title + abstract)
+        ▼
+Enriquecimiento del artículo citado
+        │  Etapa 3 — enrich_select.py  (selección balanceada)
+        ▼
+Dataset final 8 × 500 = 4.000 registros
+```
+
+- **Etapa 1 — Cosecha:** recorrido del corpus filtrando `Computer Science`, con
+  **muestreo distribuido por secciones** (reduce el sesgo de "Introduction"),
+  **anti-memorización** (máx. 4 contextos por artículo), deduplicación y longitud
+  mínima de 200 caracteres. El marcador `{{cite:...}}` se normaliza a `[CIT]`.
+  Resultado: ~165.000 artículos escaneados, **1.807** de CS usados, **7.103**
+  candidatos cosechados (con excedente).
+- **Etapa 2 — Enriquecimiento:** resolución de título/abstract del citado vía
+  OpenAlex, con preferencia de selección a registros que tienen abstract.
+- **Etapa 3 — Selección balanceada:** 500 registros por clase (8 × 500 = 4.000),
+  con tolerancia de balance ±10%; el resultado cumplió el balance exacto.
 
 **Dataset resultante:** `unarxive_microproyecto.jsonl` — 4.000 registros,
 8 subáreas × 500 (balanceado).
