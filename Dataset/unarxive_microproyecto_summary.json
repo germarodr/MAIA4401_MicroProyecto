@@ -1,0 +1,31 @@
+{
+  "total_records": 4000,
+  "per_class": {
+    "cs.CV": 500,
+    "cs.CL": 500,
+    "cs.LG": 500,
+    "cs.MA": 500,
+    "cs.IR": 500,
+    "cs.RO": 500,
+    "cs.NE": 500,
+    "cs.AI": 500
+  },
+  "balance_min_allowed": 450,
+  "classes_below_tolerance": [],
+  "cited_title_coverage": "3914 (97.9%)",
+  "cited_abstract_coverage": "3923 (98.1%)",
+  "sections": {
+    "Introduction": 935,
+    "Related Work": 266,
+    "Related work": 55,
+    "Discussion": 49,
+    "Background": 39,
+    "INTRODUCTION": 37,
+    "Experiments": 35,
+    "Related Works": 28,
+    "Results": 25,
+    "Experimental Setup": 23,
+    "Conclusion": 22,
+    "": 20
+  }
+}
