@@ -156,19 +156,56 @@ etiquetas de clasificación.
 
 ## 4. Exploración de los datos (EDA)
 
-Resumen de lo verificado en la construcción (completar con gráficas):
+Resumen de los principales hallazgos verificados durante la construcción:
 
 - **Balance de clases:** 500 registros por subárea (8 × 500 = 4.000).
-- **Cobertura de `cited_title`:** 97.9% · **`cited_abstract`:** 98.1%.
+- **Cobertura de `cited_title`:** 97,9 % · **`cited_abstract`:** 98,1 %.
 - **Distribución por sección:** Introducción ~25% (resto: Related Work, Discussion,
   Experiments, Results, …).
 
-**Pendiente de incluir con visualizaciones:**
-- [PENDIENTE: histograma de longitud de `citation_context`].
-- [PENDIENTE: distribución de clases (gráfico de barras)].
-- [PENDIENTE: distribución de secciones].
-- [PENDIENTE: nº de citas por párrafo (`n_citations`)].
-- [PENDIENTE: ejemplos representativos por clase].
+### 4.1 Visualizaciones principales
+
+#### Distribución de las clases
+
+Las ocho subáreas se encuentran balanceadas, con 500 observaciones por clase.
+
+![Distribución de registros por subárea](../eda/distribucionclases.png)
+
+#### Longitud del contexto de cita
+
+La distribución de la longitud permite identificar el tamaño típico de los
+contextos y la existencia de registros considerablemente más extensos.
+
+![Histograma de longitud del contexto de cita](<../eda/histogramalong citationcontext.png>)
+
+#### Distribución de las secciones
+
+Esta visualización muestra en qué tipos de sección aparecen los contextos de cita
+seleccionados para el conjunto de datos.
+
+![Distribución de contextos por sección](../eda/distribucionsecciones.png)
+
+#### Número de citas por párrafo
+
+La gráfica resume cuántos marcadores de cita contiene cada contexto y permite
+observar la concentración de párrafos con una o pocas referencias.
+
+![Número de citas por párrafo](../eda/citasporparrafo.png)
+
+#### Referencias citadas y subáreas
+
+El mapa de calor relaciona las referencias citadas con las categorías objetivo.
+Permite identificar obras asociadas principalmente con una subárea y referencias
+transversales a varias comunidades. También evidencia el posible riesgo de fuga
+de información si una misma obra aparece en las particiones de entrenamiento y
+prueba.
+
+![Referencias citadas frente a las subáreas](<../eda/eda refvscategorias.png>)
+
+> **Nota:** esta sección presenta los principales resultados del análisis
+> exploratorio. Para consultar las tablas, validaciones, cálculos y visualizaciones
+> con mayor detalle, véase el notebook
+> [`AnalisisEDA.ipynb`](../eda/AnalisisEDA.ipynb).
 
 ---
 
@@ -179,8 +216,100 @@ Resumen de lo verificado en la construcción (completar con gráficas):
 Elementos previstos del prototipo:
 - **Entrada:** campo para pegar el contexto de la cita (+ opcional título y abstract del citado).
 - **Salida:** subárea `cs.*` predicha + probabilidades por clase.
-- **Visualizaciones:** [PENDIENTE: distribución de predicciones, métricas del modelo, ejemplos].
-- **Relación con la pregunta de negocio:** [PENDIENTE: describir cómo el tablero responde la pregunta].
+- **Visualizaciones:** distribución de predicciones, confianza del modelo, métricas
+  de evaluación, actividad de la API y detalle de las inferencias realizadas.
+- **Relación con la pregunta de negocio:** el tablero permite probar si el contexto
+  de la cita y los metadatos del artículo citado contienen información suficiente
+  para asignar una de las ocho subáreas. Además de presentar la categoría predicha,
+  permite inspeccionar la incertidumbre del modelo y monitorear su comportamiento
+  después del despliegue.
+
+### 5.1 Vistas propuestas
+
+El prototipo tendrá tres vistas principales:
+
+1. **Clasificar cita:** formulario con `citation_context`, `cited_title` y
+   `cited_abstract`. La respuesta mostrará la subárea predicha, su nombre completo,
+   la confianza y las probabilidades para las ocho categorías.
+2. **Monitoreo:** resumen de las predicciones atendidas por la API y su evolución
+   en el tiempo.
+3. **Evaluación del modelo:** métricas calculadas sobre un conjunto etiquetado,
+   incluyendo Macro F1, accuracy, precision, recall, F1 por categoría y matriz de
+   confusión.
+
+La confianza de una inferencia no se presentará como una medida de exactitud. Las
+métricas de desempeño requieren una etiqueta real y se calcularán inicialmente
+sobre el conjunto de prueba. Cuando una predicción en producción reciba una
+etiqueta validada, podrá incorporarse a las métricas de producción.
+
+### 5.2 Registro de inferencias de la API
+
+Cada solicitud atendida por la API generará un registro de monitoreo. Como mínimo,
+el registro tendrá:
+
+| Campo y descripción | Campo y descripción | Campo y descripción |
+|---|---|---|
+| **`prediction_id`**<br>ID único | **`timestamp`**<br>Fecha y hora | **`model_version`**<br>Versión del modelo |
+| **`predicted_category`**<br>Subárea predicha | **`confidence`**<br>Probabilidad principal | **`class_probabilities`**<br>Probabilidades por categoría |
+| **`latency_ms`**<br>Tiempo de respuesta | **`has_cited_title`**<br>Disponibilidad de título | **`has_cited_abstract`**<br>Disponibilidad de abstract |
+| **`citation_context_length`**<br>Longitud del contexto | **`status`**<br>Éxito o error | **`actual_category`**<br>Etiqueta real, si existe |
+
+El almacenamiento del texto completo será configurable. Para reducir riesgos de
+privacidad, el monitoreo puede conservar únicamente características derivadas,
+como longitudes, presencia de metadatos y un hash de la entrada.
+
+### 5.3 Tablero de monitoreo
+
+La parte superior mostrará tarjetas con indicadores del periodo seleccionado:
+
+- total de peticiones;
+- predicciones exitosas y tasa de error;
+- latencia promedio y percentil 95;
+- confianza promedio;
+- porcentaje de predicciones de baja confianza;
+- categoría predicha con mayor frecuencia;
+- porcentaje de entradas sin título o sin abstract.
+
+El tablero incluirá una gráfica temporal del volumen de solicitudes, una gráfica
+de barras con la distribución de categorías predichas y una distribución de la
+confianza. Estas métricas permiten monitorear el uso y comportamiento del servicio,
+pero no reemplazan las métricas de desempeño obtenidas con etiquetas reales.
+
+### 5.4 Historial y detalle de peticiones
+
+El tablero tendrá un listado paginado de peticiones con las columnas:
+
+| Fecha y hora | ID | Categoría predicha | Confianza | Latencia | Estado | Versión |
+|---|---|---|---:|---:|---|---|
+| 2026-08-20 14:30 | `pred_001` | `cs.CV` | 82% | 135 ms | Exitosa | v1.0.0 |
+
+El listado permitirá filtrar por:
+
+- rango de fechas;
+- categoría predicha;
+- estado de la petición;
+- versión del modelo;
+- nivel de confianza.
+
+Al hacer clic sobre una petición se abrirá un panel de detalle con:
+
+- fecha, identificador, estado y versión del modelo;
+- disponibilidad y longitud de los campos de entrada;
+- categoría predicha y nombre completo de la subárea;
+- gráfica de probabilidades para las ocho categorías;
+- diferencia entre las dos categorías con mayor probabilidad;
+- latencia de la petición;
+- etiqueta real y resultado correcto/incorrecto, si ya existe validación;
+- opción de registrar retroalimentación o categoría corregida.
+
+Cuando exista una etiqueta real, el detalle permitirá establecer si la predicción
+fue correcta y cómo contribuye a las métricas del modelo. Cuando no exista, la
+interfaz indicará **“Resultado aún no validado”** para evitar interpretar la
+confianza como desempeño comprobado.
+
+### 5.5 Boceto de navegación
+
+Los mockups de las pantallas propuestas se presentan en la **[Sección 8](#8-mockups-del-prototipo)**. Estos muestran el flujo desde la página de inicio hasta la clasificación, el monitoreo de peticiones, el detalle de una inferencia y la evaluación del modelo.
 
 ---
 
@@ -208,7 +337,52 @@ Pendientes de soporte (capturas):
 
 ---
 
-## 8. Referencias
+## 8. Referencias y anexos
+***Mockups del prototipo***
+
+Las siguientes imágenes presentan la propuesta visual de CiteScope. Los datos,
+predicciones y métricas mostrados son ilustrativos; en la implementación final
+deberán obtenerse desde la API, el registro de inferencias y los resultados reales
+de evaluación del modelo.
+
+### 8.1 Página de inicio
+
+Presenta el propósito del proyecto, los accesos a sus funcionalidades principales,
+los integrantes del equipo y el apoyo de la Universidad de los Andes.
+
+![Mockup de la página de inicio de CiteScope](../mockups/01-inicio.png)
+
+### 8.2 Clasificación de una cita
+
+Permite ingresar el contexto de la cita, el título y el abstract del artículo
+citado. La salida muestra la subárea predicha, la confianza y las probabilidades
+de las ocho categorías.
+
+![Mockup de la pantalla de clasificación](../mockups/02-clasificar.png)
+
+### 8.3 Monitoreo de la API
+
+Resume el volumen de peticiones, la confianza promedio, la latencia y los errores.
+También incluye filtros por fecha y categoría, junto con el historial de
+inferencias.
+
+![Mockup del tablero de monitoreo](../mockups/03-monitoreo.png)
+
+### 8.4 Detalle de una petición
+
+Muestra la información de una inferencia seleccionada, sus probabilidades,
+metadatos de entrada, versión del modelo y estado de validación.
+
+![Mockup del detalle de una petición](../mockups/04-detalle-peticion.png)
+
+### 8.5 Evaluación del modelo
+
+Presenta las métricas calculadas con datos etiquetados, incluyendo Macro F1,
+accuracy, matriz de confusión y desempeño por subárea.
+
+![Mockup de la evaluación del modelo](../mockups/05-evaluacion-modelo.png)
+
+### 8.6 Referencias y anexos
 
 - Saier, T., Krause, J., Färber, M. (2023). *unarXive 2022: All arXiv Publications
   Pre-Processed for NLP, Including Structured Full-Text and Citation Network.* JCDL '23.
