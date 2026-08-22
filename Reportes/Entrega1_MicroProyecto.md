@@ -396,12 +396,6 @@ Los componentes principales son:
    las versiones del dataset, las particiones y los artefactos necesarios para
    reproducir el entrenamiento y la evaluación.
 
-Para el prototipo, la interfaz, la API y el almacenamiento pueden ejecutarse como
-servicios independientes coordinados con Docker Compose. En una evolución a
-producción, el registro de inferencias puede persistirse en PostgreSQL y los
-artefactos del modelo en almacenamiento de objetos, manteniendo los mismos
-contratos de la API.
-
 ---
 
 ## 6. Repositorios (código y datos)
