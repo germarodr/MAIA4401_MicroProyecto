@@ -1,0 +1,17 @@
+prediction_id,category_code,probability,rank
+pred_001,cs.CV,0.820,1
+pred_001,cs.LG,0.094,2
+pred_001,cs.AI,0.048,3
+pred_001,cs.NE,0.016,4
+pred_001,cs.CL,0.009,5
+pred_001,cs.RO,0.006,6
+pred_001,cs.IR,0.004,7
+pred_001,cs.MA,0.003,8
+pred_002,cs.LG,0.810,1
+pred_002,cs.AI,0.070,2
+pred_002,cs.CV,0.045,3
+pred_002,cs.NE,0.025,4
+pred_002,cs.CL,0.020,5
+pred_002,cs.IR,0.015,6
+pred_002,cs.RO,0.010,7
+pred_002,cs.MA,0.005,8

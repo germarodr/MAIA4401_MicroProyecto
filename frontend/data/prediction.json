@@ -1,0 +1,22 @@
+{
+  "predictionId":"pred_001",
+  "timestamp":"2026-08-20T14:32:18-05:00",
+  "modelVersion":"v1.0.0",
+  "predictedCategory":"cs.CV",
+  "predictedName":"Computer Vision and Pattern Recognition",
+  "confidence":0.82,
+  "latencyMs":135,
+  "status":"success",
+  "inputMetadata":{"contextWords":128,"hasTitle":true,"hasAbstract":true},
+  "actualCategory":null,
+  "probabilities":[
+    {"category":"cs.CV","name":"Computer Vision and Pattern Recognition","value":0.820},
+    {"category":"cs.LG","name":"Machine Learning","value":0.094},
+    {"category":"cs.AI","name":"Artificial Intelligence","value":0.048},
+    {"category":"cs.NE","name":"Neural and Evolutionary Computing","value":0.016},
+    {"category":"cs.CL","name":"Computation and Language","value":0.009},
+    {"category":"cs.RO","name":"Robotics","value":0.006},
+    {"category":"cs.IR","name":"Information Retrieval","value":0.004},
+    {"category":"cs.MA","name":"Multiagent Systems","value":0.003}
+  ]
+}

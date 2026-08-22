@@ -1,0 +1,9 @@
+category_code,name_en,name_es,color,display_order
+cs.CV,Computer Vision and Pattern Recognition,Visión por computador,#1677e8,1
+cs.LG,Machine Learning,Aprendizaje automático,#36a3e8,2
+cs.CL,Computation and Language,Procesamiento de lenguaje natural,#6f7bf7,3
+cs.AI,Artificial Intelligence,Inteligencia artificial,#8b5cf6,4
+cs.NE,Neural and Evolutionary Computing,Cómputo neuronal y evolutivo,#12b5cb,5
+cs.RO,Robotics,Robótica,#18a87b,6
+cs.IR,Information Retrieval,Recuperación de información,#f59e0b,7
+cs.MA,Multiagent Systems,Sistemas multiagente,#ef6c6c,8

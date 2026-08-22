@@ -1,0 +1,10 @@
+[
+  {"id":"pred_001","timestamp":"2026-08-20T14:32:18-05:00","category":"cs.CV","categoryName":"Computer Vision and Pattern Recognition","confidence":0.92,"latencyMs":182,"status":"success","version":"v1.0.0"},
+  {"id":"pred_002","timestamp":"2026-08-20T14:32:15-05:00","category":"cs.LG","categoryName":"Machine Learning","confidence":0.81,"latencyMs":156,"status":"success","version":"v1.0.0"},
+  {"id":"pred_003","timestamp":"2026-08-20T14:32:11-05:00","category":"cs.AI","categoryName":"Artificial Intelligence","confidence":0.74,"latencyMs":201,"status":"success","version":"v1.0.0"},
+  {"id":"pred_004","timestamp":"2026-08-20T14:32:08-05:00","category":"cs.CL","categoryName":"Computation and Language","confidence":0.89,"latencyMs":175,"status":"success","version":"v1.0.0"},
+  {"id":"pred_005","timestamp":"2026-08-20T14:32:05-05:00","category":"cs.RO","categoryName":"Robotics","confidence":0.67,"latencyMs":268,"status":"error","version":"v1.0.0"},
+  {"id":"pred_006","timestamp":"2026-08-19T11:25:44-05:00","category":"cs.NE","categoryName":"Neural and Evolutionary Computing","confidence":0.76,"latencyMs":194,"status":"success","version":"v1.0.0"},
+  {"id":"pred_007","timestamp":"2026-08-19T10:18:03-05:00","category":"cs.IR","categoryName":"Information Retrieval","confidence":0.71,"latencyMs":210,"status":"success","version":"v1.0.0"},
+  {"id":"pred_008","timestamp":"2026-08-18T16:47:30-05:00","category":"cs.MA","categoryName":"Multiagent Systems","confidence":0.69,"latencyMs":225,"status":"success","version":"v1.0.0"}
+]

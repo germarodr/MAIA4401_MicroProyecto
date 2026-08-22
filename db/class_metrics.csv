@@ -1,0 +1,9 @@
+evaluation_id,category_code,precision,recall,f1,support
+eval_001,cs.CV,0.89,0.87,0.88,100
+eval_001,cs.LG,0.88,0.86,0.87,100
+eval_001,cs.CL,0.86,0.84,0.85,100
+eval_001,cs.AI,0.85,0.87,0.86,100
+eval_001,cs.NE,0.84,0.84,0.84,100
+eval_001,cs.RO,0.82,0.84,0.83,100
+eval_001,cs.IR,0.83,0.81,0.82,100
+eval_001,cs.MA,0.80,0.80,0.80,100
