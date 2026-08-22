@@ -362,7 +362,7 @@ Pendientes de soporte (capturas):
 | Integrante | Tareas |
 |---|---|
 | Camilo Bejarano | [PENDIENTE/Camilo: tareas + evidencia de commits] |
-| German Rodriguez | [PENDIENTE/German: tareas + evidencia de commits] |
+| German Rodriguez | Creación del repositorio Git; selección del dataset (unarXive) y pipeline de datos (harvest/enrich); reporte (Secciones 1–3); revisión cruzada del EDA. Commits: `94d5419`, `271d266`, `fecab37`, `5700cfa`. |
 | Jose Arteaga | [PENDIENTE/Jose: tareas + evidencia de commits] |
 | Sebastian Toro | [PENDIENTE/Sebas: tareas + evidencia de commits] |
 
