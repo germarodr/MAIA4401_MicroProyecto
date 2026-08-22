@@ -177,7 +177,12 @@ etiquetas de clasificación.
 | `cs.IR` | Information Retrieval (recuperación de información) |
 | `cs.MA` | Multiagent Systems (sistemas multiagente) |
 
-**Disponibilidad:** [PENDIENTE/German: confirmar enlace de descarga / repositorio DVC].
+**Disponibilidad:** el dataset está versionado con **DVC**. El repositorio Git
+contiene el puntero `Dataset/unarxive_microproyecto.jsonl.dvc`; el archivo de datos
+(`unarxive_microproyecto.jsonl`, ~20,3 MB, MD5 `ab4dae83062d1de3238c419cbd3d3a4c`)
+se almacena en un remoto **S3** (`s3://gaspar3107-tech-taller3-dvc-20260816/maia4401-microproyecto`,
+región `us-east-1`). Para obtenerlo: clonar el repositorio y ejecutar `dvc pull`
+(requiere credenciales de acceso al bucket).
 
 ---
 
@@ -341,6 +346,7 @@ Los mockups de las pantallas propuestas se presentan en la **[Sección 8](#8-moc
 ## 6. Repositorios (código y datos)
 
 **Git (código):** https://github.com/germarodr/MAIA4401_MicroProyecto.git
+
 **DVC (datos):** [PENDIENTE/Jose: enlace del remoto + capturas de `dvc add`/`dvc push`].
 
 Pendientes de soporte (capturas):
