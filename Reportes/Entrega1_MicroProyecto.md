@@ -1,4 +1,4 @@
-# [Nombre del producto] — Reporte Entrega 1 (MicroProyecto)
+# CiteScope — Reporte Entrega 1 (MicroProyecto)
 
 **Equipo (Grupo 8):**
 - Camilo Bejarano — c.bejaranoc@uniandes.edu.co
@@ -17,12 +17,16 @@ Clasificación de la **subárea de Computer Science** de un artículo científic
 partir del **contexto de la cita** y de los **metadatos (título y abstract) del
 artículo citado**.
 
-- **Contexto general:** este MicroProyecto es la primera fase (producto y pipeline
-  de datos) del Proyecto de Grado sobre análisis de citas académicas en arXiv,
-  cuyo objetivo final es la recuperación semántica y la clasificación de la función
-  de la cita.
-- **Motivación / valor:** [PENDIENTE: por qué importa clasificar la subárea — p. ej.
-  organización de literatura, recomendación, indexación temática, apoyo a revisión].
+- **Contexto general:** el volumen de literatura científica en arXiv crece de forma
+  acelerada, lo que dificulta organizar, indexar y descubrir trabajos por su
+  subárea temática. Cuando un artículo cita a otro, el párrafo donde ocurre la cita
+  y los metadatos del trabajo citado ofrecen señales sobre el tema que se está
+  abordando. Este proyecto aprovecha esas señales para inferir automáticamente la
+  subárea de Computer Science del artículo citante.
+- **Motivación / valor:** clasificar la subárea permite organizar y navegar grandes
+  colecciones de literatura, apoyar la indexación temática y la recomendación de
+  artículos, y agilizar tareas de revisión bibliográfica al agrupar trabajos por su
+  área de conocimiento sin depender de etiquetas manuales.
 - **Dominio:** artículos científicos en inglés de **Computer Science** (arXiv).
 
 ---
@@ -46,10 +50,33 @@ artículo citado**.
    - **API** para servir inferencias.
    - **Tablero (dashboard)** que consuma la API y visualice datos relevantes.
    - **Despliegue con Docker** (contenedores).
-4. **Limitaciones:** [PENDIENTE: sesgo de selección por abstract, sesgo de sección,
-   dominio acotado a 8 subáreas, single-label].
-5. **Resultados esperados:** [PENDIENTE: métricas objetivo — Macro/Micro F1 esperado,
-   baseline vs enriquecido].
+4. **Limitaciones:**
+   - **Sesgo de selección por abstract:** la construcción priorizó registros con
+     abstract disponible (cobertura ~98%), por lo que el dataset no refleja la
+     proporción real de citas sin metadatos y el modelo podría degradarse ante
+     entradas sin título o abstract.
+   - **Sesgo de sección:** aunque se aplicó muestreo distribuido, los contextos de
+     cita se concentran en secciones como *Introduction* y *Related Work*, lo que
+     puede sesgar el lenguaje aprendido hacia el estilo de esas secciones.
+   - **Dominio acotado a 8 subáreas:** solo se consideran 8 categorías `cs.*`; el
+     modelo no reconoce otras subáreas de Computer Science ni disciplinas distintas.
+   - **Etiqueta única (single-label):** se asume una sola subárea por artículo
+     (`citing_primary_category`), pese a que muchos trabajos son multidisciplinarios
+     y podrían pertenecer a varias categorías.
+   - **Posible fuga de información por obras citadas repetidas:** una misma obra
+     puede aparecer en varias particiones, por lo que la estrategia de partición
+     debe controlarlo para no sobreestimar el desempeño.
+5. **Resultados esperados:**
+   - **Baseline (solo contexto):** clasificador sobre `citation_context` únicamente,
+     como referencia mínima frente al azar (12,5% en 8 clases balanceadas).
+   - **Modelo enriquecido (contexto + título + abstract):** se espera que la adición
+     de los metadatos del artículo citado supere de forma consistente al baseline.
+   - **Métrica principal:** *Macro F1* (trata por igual a las 8 clases balanceadas),
+     acompañada de *accuracy* y F1 por categoría; meta orientativa de Macro F1 ≥ 0,70
+     para el modelo enriquecido, a confirmar con la evaluación.
+   - **Entregable:** matriz de confusión y desempeño por subárea para identificar
+     categorías más difíciles y confusiones entre áreas cercanas (p. ej. `cs.AI`,
+     `cs.LG` y `cs.NE`).
 
 **Fuera de alcance (por ahora):**
 - Clasificación de la *función* de la cita.
@@ -150,7 +177,7 @@ etiquetas de clasificación.
 | `cs.IR` | Information Retrieval (recuperación de información) |
 | `cs.MA` | Multiagent Systems (sistemas multiagente) |
 
-**Disponibilidad:** [PENDIENTE: confirmar enlace de descarga / repositorio DVC].
+**Disponibilidad:** [PENDIENTE/German: confirmar enlace de descarga / repositorio DVC].
 
 ---
 
@@ -210,8 +237,6 @@ prueba.
 ---
 
 ## 5. Maqueta (mockup) del prototipo
-
-[PENDIENTE: insertar imagen del mockup]
 
 Elementos previstos del prototipo:
 - **Entrada:** campo para pegar el contexto de la cita (+ opcional título y abstract del citado).
@@ -315,14 +340,14 @@ Los mockups de las pantallas propuestas se presentan en la **[Sección 8](#8-moc
 
 ## 6. Repositorios (código y datos)
 
-**Git (código):** [PENDIENTE: enlace + capturas de commits].
-**DVC (datos):** [PENDIENTE: enlace del remoto + capturas de `dvc add`/`dvc push`].
+**Git (código):** https://github.com/germarodr/MAIA4401_MicroProyecto.git
+**DVC (datos):** [PENDIENTE/Jose: enlace del remoto + capturas de `dvc add`/`dvc push`].
 
 Pendientes de soporte (capturas):
-- [PENDIENTE: inicialización de Git y DVC].
-- [PENDIENTE: dataset versionado con DVC (`.dvc`)].
-- [PENDIENTE: remoto de almacenamiento (S3/otro)].
-- [PENDIENTE: estructura del repositorio].
+- [PENDIENTE/Jose: inicialización de Git y DVC].
+- [PENDIENTE/Jose: dataset versionado con DVC (`.dvc`)].
+- [PENDIENTE/Jose: remoto de almacenamiento (S3/otro)].
+- [PENDIENTE/Jose: estructura del repositorio].
 
 ---
 
@@ -330,10 +355,10 @@ Pendientes de soporte (capturas):
 
 | Integrante | Tareas |
 |---|---|
-| Camilo Bejarano | [PENDIENTE: tareas + evidencia de commits] |
-| German Rodriguez | [PENDIENTE: tareas + evidencia de commits] |
-| Jose Arteaga | [PENDIENTE: tareas + evidencia de commits] |
-| Sebastian Toro | [PENDIENTE: tareas + evidencia de commits] |
+| Camilo Bejarano | [PENDIENTE/Camilo: tareas + evidencia de commits] |
+| German Rodriguez | [PENDIENTE/German: tareas + evidencia de commits] |
+| Jose Arteaga | [PENDIENTE/Jose: tareas + evidencia de commits] |
+| Sebastian Toro | [PENDIENTE/Sebas: tareas + evidencia de commits] |
 
 ---
 
