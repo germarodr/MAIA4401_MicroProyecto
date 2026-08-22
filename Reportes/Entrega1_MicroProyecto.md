@@ -1,6 +1,7 @@
 # CiteScope — Reporte Entrega 1 (MicroProyecto)
 
 **Equipo (Grupo 8):**
+
 - Camilo Bejarano — c.bejaranoc@uniandes.edu.co
 - German Rodriguez — gm.rodriguez@uniandes.edu.co
 - Jose Arteaga — j.arteagac@uniandes.edu.co
@@ -34,6 +35,7 @@ artículo citado**.
 ## 2. Pregunta de negocio y alcance del proyecto
 
 **Pregunta de negocio:**
+
 > ¿Es posible predecir la subárea de Computer Science (los códigos `cs.*` de
 > arXiv, p. ej. `cs.LG` = *Machine Learning*) de un artículo a partir del
 > contexto de la cita y de los metadatos (título y abstract) del artículo citado?
@@ -79,6 +81,7 @@ artículo citado**.
      `cs.LG` y `cs.NE`).
 
 **Fuera de alcance (por ahora):**
+
 - Clasificación de la *función* de la cita.
 - Recuperación semántica del texto completo del artículo citado.
 - Predicción multi-etiqueta (un artículo se asigna a una sola subárea).
@@ -94,15 +97,14 @@ artículo citado**.
 Antes de decidir se evaluaron cuatro fuentes bajo la restricción de dominio
 (**Computer Science / arXiv**). La tabla resume el hallazgo crítico y la decisión:
 
-| Dataset | Dominio | Hallazgo crítico | Decisión |
-|---|---|---|---|
-| **SciCite** | Mayormente biomédico | Solo 3 clases de *función* de cita; ~1.7% de citas enlazables a arXiv | Descartado |
-| **ACL-ARC** | CS / NLP | Muy pequeño (~1.9k); 65% de citas "External"; abstract del citado ~21% | Referencia secundaria |
-| **MultiCite** | CS / NLP | IDs de paper anonimizados (hash de 30 chars) → el citado **no es resoluble** | Descartado |
-| **unarXive** | **arXiv (CS-heavy)** | Ninguno crítico; texto completo + citas resueltas a IDs reales | **Seleccionado** |
+| Dataset             | Dominio                    | Hallazgo crítico                                                                  | Decisión              |
+| ------------------- | -------------------------- | ---------------------------------------------------------------------------------- | ---------------------- |
+| **SciCite**   | Mayormente biomédico      | Solo 3 clases de*función* de cita; ~1.7% de citas enlazables a arXiv            | Descartado             |
+| **ACL-ARC**   | CS / NLP                   | Muy pequeño (~1.9k); 65% de citas "External"; abstract del citado ~21%            | Referencia secundaria  |
+| **MultiCite** | CS / NLP                   | IDs de paper anonimizados (hash de 30 chars) → el citado**no es resoluble** | Descartado             |
+| **unarXive**  | **arXiv (CS-heavy)** | Ninguno crítico; texto completo + citas resueltas a IDs reales                    | **Seleccionado** |
 
-**Por qué unarXive:** es nativo de arXiv (filtrable por `discipline == "Computer
-Science"`), trae el texto completo estructurado y resuelve cada cita a
+**Por qué unarXive:** es nativo de arXiv (filtrable por `discipline == "Computer Science"`), trae el texto completo estructurado y resuelve cada cita a
 identificadores reales del artículo citado (OpenAlex / DOI), lo que habilita el
 enriquecimiento con título y abstract. Además, el mismo corpus se reutiliza en el
 Proyecto de Grado (recuperación de texto completo por el arXiv ID del citado).
@@ -154,28 +156,28 @@ Dataset final 8 × 500 = 4.000 registros
 **Dataset resultante:** `unarxive_microproyecto.jsonl` — 4.000 registros,
 8 subáreas × 500 (balanceado).
 
-| Campo | Rol | Descripción |
-|---|---|---|
-| `citation_context` | Input (X) | Párrafo del citante con la cita (marcador → `[CIT]`) |
-| `cited_title` | Input (X) | Título del artículo citado |
-| `cited_abstract` | Input (X) | Abstract del artículo citado |
-| `citing_primary_category` | Target (y) | Subárea de Computer Science (`cs.*`) del citante |
-| `section` / `sec_type` | aux | Sección del citante donde ocurre la cita |
-| `cited_refs[]` | aux | Todas las citas del párrafo con sus IDs |
+| Campo                       | Rol        | Descripción                                            |
+| --------------------------- | ---------- | ------------------------------------------------------- |
+| `citation_context`        | Input (X)  | Párrafo del citante con la cita (marcador →`[CIT]`) |
+| `cited_title`             | Input (X)  | Título del artículo citado                            |
+| `cited_abstract`          | Input (X)  | Abstract del artículo citado                           |
+| `citing_primary_category` | Target (y) | Subárea de Computer Science (`cs.*`) del citante     |
+| `section` / `sec_type`  | aux        | Sección del citante donde ocurre la cita               |
+| `cited_refs[]`            | aux        | Todas las citas del párrafo con sus IDs                |
 
 **Subáreas (target):** las 8 subáreas de Computer Science de arXiv usadas como
 etiquetas de clasificación.
 
-| Código arXiv | Nombre de la subárea |
-|---|---|
-| `cs.LG` | Machine Learning (aprendizaje automático) |
-| `cs.CV` | Computer Vision and Pattern Recognition (visión por computador) |
-| `cs.CL` | Computation and Language (procesamiento de lenguaje natural) |
-| `cs.AI` | Artificial Intelligence (inteligencia artificial) |
-| `cs.NE` | Neural and Evolutionary Computing (cómputo neuronal y evolutivo) |
-| `cs.RO` | Robotics (robótica) |
-| `cs.IR` | Information Retrieval (recuperación de información) |
-| `cs.MA` | Multiagent Systems (sistemas multiagente) |
+| Código arXiv | Nombre de la subárea                                             |
+| ------------- | ----------------------------------------------------------------- |
+| `cs.LG`     | Machine Learning (aprendizaje automático)                        |
+| `cs.CV`     | Computer Vision and Pattern Recognition (visión por computador)  |
+| `cs.CL`     | Computation and Language (procesamiento de lenguaje natural)      |
+| `cs.AI`     | Artificial Intelligence (inteligencia artificial)                 |
+| `cs.NE`     | Neural and Evolutionary Computing (cómputo neuronal y evolutivo) |
+| `cs.RO`     | Robotics (robótica)                                              |
+| `cs.IR`     | Information Retrieval (recuperación de información)             |
+| `cs.MA`     | Multiagent Systems (sistemas multiagente)                         |
 
 **Disponibilidad:** el dataset está versionado con **DVC**. El repositorio Git
 contiene el puntero `Dataset/unarxive_microproyecto.jsonl.dvc`; el archivo de datos
@@ -244,6 +246,7 @@ prueba.
 ## 5. Maqueta (mockup) del prototipo
 
 Elementos previstos del prototipo:
+
 - **Entrada:** campo para pegar el contexto de la cita (+ opcional título y abstract del citado).
 - **Salida:** subárea `cs.*` predicha + probabilidades por clase.
 - **Visualizaciones:** distribución de predicciones, confianza del modelo, métricas
@@ -277,12 +280,12 @@ etiqueta validada, podrá incorporarse a las métricas de producción.
 Cada solicitud atendida por la API generará un registro de monitoreo. Como mínimo,
 el registro tendrá:
 
-| Campo y descripción | Campo y descripción | Campo y descripción |
-|---|---|---|
-| **`prediction_id`**<br>ID único | **`timestamp`**<br>Fecha y hora | **`model_version`**<br>Versión del modelo |
-| **`predicted_category`**<br>Subárea predicha | **`confidence`**<br>Probabilidad principal | **`class_probabilities`**<br>Probabilidades por categoría |
-| **`latency_ms`**<br>Tiempo de respuesta | **`has_cited_title`**<br>Disponibilidad de título | **`has_cited_abstract`**<br>Disponibilidad de abstract |
-| **`citation_context_length`**<br>Longitud del contexto | **`status`**<br>Éxito o error | **`actual_category`**<br>Etiqueta real, si existe |
+| Campo y descripción                                 | Campo y descripción                             | Campo y descripción                                     |
+| ---------------------------------------------------- | ------------------------------------------------ | -------------------------------------------------------- |
+| **`prediction_id`**ID único                       | **`timestamp`**Fecha y hora                    | **`model_version`**Versión del modelo                 |
+| **`predicted_category`**Subárea predicha          | **`confidence`**Probabilidad principal         | **`class_probabilities`**Probabilidades por categoría |
+| **`latency_ms`**Tiempo de respuesta                | **`has_cited_title`**Disponibilidad de título | **`has_cited_abstract`**Disponibilidad de abstract     |
+| **`citation_context_length`**Longitud del contexto | **`status`**Éxito o error                     | **`actual_category`**Etiqueta real, si existe          |
 
 El almacenamiento del texto completo será configurable. Para reducir riesgos de
 privacidad, el monitoreo puede conservar únicamente características derivadas,
@@ -309,9 +312,9 @@ pero no reemplazan las métricas de desempeño obtenidas con etiquetas reales.
 
 El tablero tendrá un listado paginado de peticiones con las columnas:
 
-| Fecha y hora | ID | Categoría predicha | Confianza | Latencia | Estado | Versión |
-|---|---|---|---:|---:|---|---|
-| 2026-08-20 14:30 | `pred_001` | `cs.CV` | 82% | 135 ms | Exitosa | v1.0.0 |
+| Fecha y hora     | ID           | Categoría predicha | Confianza | Latencia | Estado  | Versión |
+| ---------------- | ------------ | ------------------- | --------: | -------: | ------- | -------- |
+| 2026-08-20 14:30 | `pred_001` | `cs.CV`           |       82% |   135 ms | Exitosa | v1.0.0   |
 
 El listado permitirá filtrar por:
 
@@ -400,26 +403,92 @@ Los componentes principales son:
 
 ## 6. Repositorios (código y datos)
 
-**Git (código):** https://github.com/germarodr/MAIA4401_MicroProyecto.git
+### 6.1 Repositorio de código y documentación (Git)
 
-**DVC (datos):** [PENDIENTE/Jose: enlace del remoto + capturas de `dvc add`/`dvc push`].
+El código, los scripts reproducibles, el reporte y los recursos visuales se
+administran en Git. El repositorio remoto del equipo es:
 
-Pendientes de soporte (capturas):
-- [PENDIENTE/Jose: inicialización de Git y DVC].
-- [PENDIENTE/Jose: dataset versionado con DVC (`.dvc`)].
-- [PENDIENTE/Jose: remoto de almacenamiento (S3/otro)].
-- [PENDIENTE/Jose: estructura del repositorio].
+[https://github.com/germarodr/MAIA4401_MicroProyecto](https://github.com/germarodr/MAIA4401_MicroProyecto)
+
+Se emplea la rama `dev` para integrar el trabajo en curso del equipo. El historial
+de commits evidencia, entre otros avances, la inicialización de Git y DVC, el
+versionamiento inicial del dataset, la selección y el enriquecimiento de unarXive,
+la construcción del EDA, los mockups y las actualizaciones del reporte.
+
+**Evidencia de trazabilidad.** La siguiente captura presenta el historial de
+commits de la rama `dev`, incluyendo contribuciones relacionadas con DVC, el
+dataset, el EDA, los mockups y el reporte.
+
+![Historial de commits de la rama dev](images/01-historial-commits-dev.png)
+
+### 6.2 Versionamiento y disponibilidad de datos (DVC)
+
+Los archivos de datos se gestionan con **DVC** para separar los archivos pesados
+del historial de código de Git. El dataset principal,
+`Dataset/unarxive_microproyecto.jsonl` (4.000 registros; 21.283.237 bytes), está
+referenciado por el archivo `Dataset/unarxive_microproyecto.jsonl.dvc`. Este
+puntero registra su ruta, tamaño y hash MD5, permitiendo recuperar exactamente la
+misma versión del dataset.
+
+El remoto predeterminado de DVC se denomina `aws-remote` y utiliza un bucket
+privado de Amazon S3 en la región `us-east-1`. La configuración del remoto se
+mantiene en `.dvc/config`; las credenciales se conservan fuera del repositorio y
+no se incluyen en Git. En un entorno con permisos para el bucket, el conjunto de
+datos se reproduce después de clonar el repositorio mediante:
+
+**URI del remoto DVC (privado):**
+`s3://gaspar3107-tech-taller3-dvc-20260816/maia4401-microproyecto`
+
+**Evidencia de incorporación al control de datos.** La Figura siguiente muestra
+la ejecución de `dvc add`, que calcula la versión del archivo y actualiza el
+puntero `Dataset/unarxive_microproyecto.jsonl.dvc` para que este pueda ser
+registrado en Git.
+
+![Ejecución de dvc add para el dataset](images/02-DVC.png)
+
+**Evidencia de sincronización con el remoto.** La siguiente captura muestra la
+ejecución de `dvc push`. El mensaje *Everything is up to date* confirma que la
+versión local del dataset ya se encuentra sincronizada con el remoto DVC.
+
+![Ejecución de dvc push y verificación de sincronización](images/03-REMOTO.png)
+
+### 6.3 Estructura y evidencias de trazabilidad
+
+La estructura relevante del repositorio comprende:
+
+- `Dataset/`: puntero DVC, resumen y dataset recuperado.
+- `scripts/`: scripts de selección, recolección y enriquecimiento de datos.
+- `eda/`: notebook y visualizaciones del análisis exploratorio.
+- `mockups/`: recursos de la propuesta de interfaz.
+- `Reportes/`: documento de la entrega.
+- `.dvc/`: configuración del control de versiones de datos.
+
+**Inicialización de Git y DVC.** Evidencia de que ambos sistemas reconocen la raíz del proyecto.
+
+![Inicialización de Git y DVC](images/04-GIT-DVC-INICIALIZACION.png)
+
+**Dataset versionado.** El archivo `.dvc` registra el hash, tamaño y ruta de la versión controlada.
+
+![Dataset versionado con DVC](images/05-DATASET-VERSIONADO.png)
+
+**Remoto S3.** DVC identifica el remoto privado `aws-remote` configurado para los datos.
+
+![Remoto S3 configurado en DVC](images/06-REMOTE-S3.png)
+
+**Estructura del repositorio.** Evidencia de la estructura en Git del microproyecto.
+
+![Estructura versionada del repositorio](images/07-Structure-GIT.png)
 
 ---
 
 ## 7. Reporte de trabajo en equipo (máx. 1 página)
 
-| Integrante | Tareas |
-|---|---|
-| Camilo Bejarano | [PENDIENTE/Camilo: tareas + evidencia de commits] |
-| German Rodriguez | Validación del problema de negocio/técnico; creación del repositorio Git; selección del dataset (unarXive) y pipeline de datos (harvest/enrich); reporte (Secciones 1–3); revisión cruzada del EDA. Commits: `94d5419`, `271d266`, `fecab37`, `5700cfa`. |
-| Jose Arteaga | [PENDIENTE/Jose: tareas + evidencia de commits] |
-| Sebastian Toro | Realize los mockups y el tablero de analiis exploratorio EDA y arquitectura, agrege esta secciones al entregable, ademas valide la entrega de Camilo (validacion cruzada) |
+| Integrante       | Tareas                                                                                                                                                                                                                                                                |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Camilo Bejarano  | [PENDIENTE/Camilo: tareas + evidencia de commits]                                                                                                                                                                                                                     |
+| German Rodriguez | Validación del problema de negocio/técnico; creación del repositorio Git; selección del dataset (unarXive) y pipeline de datos (harvest/enrich); reporte (Secciones 1–3); revisión cruzada del EDA. Commits:`94d5419`, `271d266`, `fecab37`, `5700cfa`. |
+| Jose Arteaga     | Configuración de DVC y de su remoto privado en S3; versionamiento inicial del dataset unarXive y verificación de su recuperación reproducible con DVC. Commits:`2fbabea`, `44f4cae`, `e92f6df`, `c4b3a6c`.                                                |
+| Sebastian Toro   | Realize los mockups y el tablero de analiis exploratorio EDA y arquitectura, agrege esta secciones al entregable, ademas valide la entrega de Camilo (validacion cruzada)                                                                                             |
 
 ---
 
