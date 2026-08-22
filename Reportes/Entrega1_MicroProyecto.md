@@ -339,7 +339,68 @@ confianza como desempeño comprobado.
 
 ### 5.5 Boceto de navegación
 
-Los mockups de las pantallas propuestas se presentan en la **[Sección 8](#8-mockups-del-prototipo)**. Estos muestran el flujo desde la página de inicio hasta la clasificación, el monitoreo de peticiones, el detalle de una inferencia y la evaluación del modelo.
+Los mockups de las pantallas propuestas se presentan en la
+**[Sección 8](#8-mockups-del-prototipo)**. Estos muestran el flujo desde la página
+de inicio hasta la clasificación, el monitoreo de peticiones, el detalle de una
+inferencia y la evaluación del modelo.
+
+### 5.6 Arquitectura propuesta
+
+Se propone una arquitectura modular basada en servicios, desplegada mediante
+contenedores Docker. La interfaz web no accede directamente al modelo ni a la base
+de datos: todas las operaciones se realizan a través de una API REST. Esta
+separación permite actualizar la interfaz, el modelo o el mecanismo de persistencia
+sin modificar los demás componentes.
+
+```mermaid
+flowchart LR
+    U[Usuario] --> FE[Interfaz web / Dashboard]
+    FE -->|HTTPS / JSON| API[API REST de inferencia]
+    API --> VAL[Validación y preprocesamiento]
+    VAL --> MOD[Modelo de clasificación]
+    MOD --> API
+    API -->|Predicción y probabilidades| FE
+    API --> LOG[(Registro de inferencias)]
+    LOG --> MON[Módulo de monitoreo]
+    MON --> FE
+    TEST[(Conjunto de prueba etiquetado)] --> EVAL[Módulo de evaluación]
+    MOD --> EVAL
+    EVAL --> MET[(Métricas del modelo)]
+    MET --> FE
+    DVC[(Datos y artefactos versionados con DVC)] --> MOD
+    DVC --> TEST
+```
+
+Los componentes principales son:
+
+1. **Interfaz web / Dashboard:** implementa las vistas de inicio, clasificación,
+   monitoreo, detalle de petición y evaluación. Envía las solicitudes a la API y
+   presenta las respuestas, pero no ejecuta directamente el modelo.
+2. **API REST de inferencia:** recibe `citation_context`, `cited_title` y
+   `cited_abstract`; valida la solicitud; ejecuta el flujo de preprocesamiento y
+   devuelve la categoría predicha, la confianza y las probabilidades de las ocho
+   subáreas.
+3. **Preprocesamiento y modelo:** aplica las mismas transformaciones usadas durante
+   el entrenamiento y carga un artefacto versionado del clasificador. Cada
+   respuesta identifica la versión del modelo utilizada.
+4. **Registro de inferencias:** almacena el identificador, fecha, versión del
+   modelo, categoría, probabilidades, latencia, estado y características derivadas
+   de la entrada. El texto completo solo se conservará si la política de privacidad
+   lo permite.
+5. **Módulo de monitoreo:** consulta los registros para calcular volumen de
+   peticiones, distribución de predicciones, confianza, latencia, errores y
+   disponibilidad de metadatos. También soporta los filtros por fecha y categoría.
+6. **Módulo de evaluación:** calcula accuracy, Macro F1, Micro F1, métricas por
+   clase y matriz de confusión utilizando únicamente datos con etiquetas reales.
+7. **Versionamiento de datos y artefactos:** Git administra el código y DVC controla
+   las versiones del dataset, las particiones y los artefactos necesarios para
+   reproducir el entrenamiento y la evaluación.
+
+Para el prototipo, la interfaz, la API y el almacenamiento pueden ejecutarse como
+servicios independientes coordinados con Docker Compose. En una evolución a
+producción, el registro de inferencias puede persistirse en PostgreSQL y los
+artefactos del modelo en almacenamiento de objetos, manteniendo los mismos
+contratos de la API.
 
 ---
 
@@ -364,12 +425,11 @@ Pendientes de soporte (capturas):
 | Camilo Bejarano | [PENDIENTE/Camilo: tareas + evidencia de commits] |
 | German Rodriguez | Validación del problema de negocio/técnico; creación del repositorio Git; selección del dataset (unarXive) y pipeline de datos (harvest/enrich); reporte (Secciones 1–3); revisión cruzada del EDA. Commits: `94d5419`, `271d266`, `fecab37`, `5700cfa`. |
 | Jose Arteaga | [PENDIENTE/Jose: tareas + evidencia de commits] |
-| Sebastian Toro | [PENDIENTE/Sebas: tareas + evidencia de commits] |
+| Sebastian Toro | Realize los mockups y el tablero de analiis exploratorio EDA y arquitectura, agrege esta secciones al entregable, ademas valide la entrega de Camilo (validacion cruzada) |
 
 ---
 
-## 8. Referencias y anexos
-***Mockups del prototipo***
+## 8. Mockups del prototipo
 
 Las siguientes imágenes presentan la propuesta visual de CiteScope. Los datos,
 predicciones y métricas mostrados son ilustrativos; en la implementación final
