@@ -541,4 +541,3 @@ accuracy, matriz de confusión y desempeño por subárea.
 - Saier, T., Krause, J., Färber, M. (2023). *unarXive 2022: All arXiv Publications
   Pre-Processed for NLP, Including Structured Full-Text and Citation Network.* JCDL '23.
 - OpenAlex. https://openalex.org/
-- [PENDIENTE: referencias adicionales del dominio de análisis de citas].
