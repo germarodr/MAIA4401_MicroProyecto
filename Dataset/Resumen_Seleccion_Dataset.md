@@ -103,13 +103,13 @@ están consolidados en [../scripts/](../scripts/).
 unarXive (corpus local, CS)
         │  Etapa 1 — harvest_candidates.py
         ▼
-Candidatos con excedente por clase   (data/interim/unarxive_candidates.jsonl)
+Candidatos con excedente por clase   (Dataset/interim/unarxive_candidates.jsonl)
         │  Etapa 2 — enrich_select.py  (OpenAlex: title + abstract)
         ▼
 Enriquecimiento del artículo citado
         │  Etapa 3 — enrich_select.py  (selección balanceada)
         ▼
-Dataset final 8 × 500 = 4.000   (data/processed/unarxive_microproyecto.jsonl)
+Dataset final 8 × 500 = 4.000   (Dataset/unarxive_microproyecto.jsonl)
 ```
 
 ### 3.1 Etapa 1 — Cosecha de candidatos (`harvest_candidates.py`)
@@ -168,7 +168,7 @@ Métricas del dataset final (ver [unarxive_microproyecto_summary.json](unarxive_
 
 ## 4. Esquema del dataset
 
-Archivo: `data/processed/unarxive_microproyecto.jsonl`
+Archivo: `Dataset/unarxive_microproyecto.jsonl`
 
 | Campo | Rol | Descripción |
 |---|---|---|
@@ -249,9 +249,9 @@ el Proyecto de Grado. Sobre ella se construyó, con un pipeline reproducible
 
 | Artefacto | Ruta |
 |---|---|
-| Dataset final (4.000) | `data/processed/unarxive_microproyecto.jsonl` |
+| Dataset final (4.000) | `Dataset/unarxive_microproyecto.jsonl` |
 | Resumen de conteos | [unarxive_microproyecto_summary.json](unarxive_microproyecto_summary.json) |
-| Candidatos cosechados (7.103) | `data/interim/unarxive_candidates.jsonl` |
+| Candidatos cosechados (7.103) | `Dataset/interim/unarxive_candidates.jsonl` |
 | Script de cosecha | [../scripts/harvest_candidates.py](../scripts/harvest_candidates.py) |
 | Script de enriquecimiento + selección | [../scripts/enrich_select.py](../scripts/enrich_select.py) |
 | Guía de uso de los scripts | [../scripts/README.md](../scripts/README.md) |

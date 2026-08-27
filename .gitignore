@@ -14,7 +14,7 @@ __pycache__/
 .env.*
 
 # Datos grandes (versionar con DVC, no con Git)
-data/raw/
+Dataset/raw/
 *.jsonl
 *.tar.xz
 *.tar.gz
