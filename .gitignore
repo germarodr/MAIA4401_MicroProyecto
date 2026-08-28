@@ -25,6 +25,12 @@ data/raw/
 *.joblib
 *.pt
 *.bin
+*.safetensors
+models/artifacts/*_ckpt/
+
+# MLflow local
+mlruns/
+mlflow.db
 
 # Sistema
 .DS_Store

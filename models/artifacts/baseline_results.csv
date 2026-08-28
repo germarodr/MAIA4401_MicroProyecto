@@ -1,0 +1,3 @@
+modelo,input,macro_f1_val,accuracy_val,tfidf_ngram,tfidf_min_df,sublinear_tf,seed,eval_split
+logreg,text_context,0.5696105778966074,0.57125,"(1, 2)",3,True,42,val
+linearsvc,text_context,0.5523051465506169,0.55875,"(1, 2)",3,True,42,val

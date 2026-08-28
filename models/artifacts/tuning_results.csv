@@ -1,0 +1,2 @@
+modelo,input,cv_macro_f1,macro_f1_val,accuracy_val,delta_vs_default,seed,clf__C,clf__class_weight,tfidf__max_features,tfidf__min_df,tfidf__ngram_range
+logreg,text_enriched,0.6183,0.6145,0.615,-0.0132,42,1,None,None,5,"(1, 1)"
