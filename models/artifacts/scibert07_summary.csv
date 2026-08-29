@@ -1,0 +1,2 @@
+model_name,input_strategy,context_budget,title_budget,abstract_budget,best_learning_rate,mean_macro_f1_seeds,std_macro_f1_seeds,best_scibert_macro_f1_val,best_ensemble_alpha,best_ensemble_macro_f1_val,reference_05_macro_f1_val,eval_split
+allenai/scibert_scivocab_uncased,structured_token_budgets,192,48,268,1e-05,0.6869911189501513,0.007666859394624779,0.6958313167767745,0.9,0.6980719502176804,0.6836,val

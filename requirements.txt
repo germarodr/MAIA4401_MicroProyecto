@@ -1,0 +1,26 @@
+# Entorno base del microproyecto (Python 3.12)
+#
+# Instalacion:
+#   python -m pip install -r requirements.txt
+
+# Analisis de datos y visualizacion
+pandas==2.3.3
+matplotlib==3.11.1
+seaborn==0.13.2
+
+# Modelado y seguimiento de experimentos
+scikit-learn==1.9.0
+mlflow==3.15.2
+
+# Versionamiento de datos y remoto S3
+dvc-s3==3.3.0
+
+# Notebooks
+ipykernel==7.3.0
+
+# Ingesta y procesamiento documental
+requests==2.34.2
+feedparser==6.0.14
+arxiv==4.0.1
+pylatexenc==2.11
+python-docx==1.2.0
