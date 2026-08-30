@@ -12,6 +12,13 @@ seaborn==0.13.2
 scikit-learn==1.9.0
 mlflow==3.15.2
 
+# Modelado profundo con SciBERT (CUDA 13.2)
+--extra-index-url https://download.pytorch.org/whl/cu132
+torch==2.13.0+cu132
+transformers==4.57.1
+accelerate==1.14.0
+truststore==0.10.4
+
 # Versionamiento de datos y remoto S3
 dvc-s3==3.3.0
 
