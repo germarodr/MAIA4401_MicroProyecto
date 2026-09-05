@@ -2,7 +2,7 @@
 
 <div class="cover-brand">CiteScope</div>
 
-<h1>Clasificación de subáreas de Computer Science a partir de contextos de cita</h1>
+<h1>CiteScope — Entrega 2</h1>
 
 <h2>Entrega 2 — Microproyecto</h2>
 
