@@ -1,0 +1,151 @@
+@page {
+  size: Letter;
+  margin: 1.6cm 1.7cm 1.5cm;
+}
+
+:root {
+  --navy: #0a3041;
+  --blue: #156082;
+  --light-blue: #eaf3f7;
+  --line: #b8cbd4;
+  --text: #20262b;
+}
+
+body {
+  color: var(--text);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.35;
+  text-align: justify;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--navy);
+  page-break-after: avoid;
+}
+
+h1 {
+  font-size: 19pt;
+  margin: 0.65em 0 0.45em;
+}
+
+h2 {
+  font-size: 14pt;
+  margin: 0.65em 0 0.3em;
+}
+
+h3 {
+  font-size: 11.5pt;
+  margin: 0.55em 0 0.25em;
+}
+
+p {
+  margin: 0.35em 0;
+}
+
+blockquote {
+  background: var(--light-blue);
+  border-left: 4px solid var(--blue);
+  color: var(--navy);
+  margin: 0.7em 0;
+  padding: 0.55em 0.8em;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: 9.3pt;
+  margin: 0.65em 0;
+  width: 100%;
+}
+
+th {
+  background: var(--navy);
+  color: #fff;
+  text-align: left;
+}
+
+th,
+td {
+  border: 1px solid var(--line);
+  padding: 4px 6px;
+  vertical-align: top;
+}
+
+tr:nth-child(even) td {
+  background: #f6f9fa;
+}
+
+img {
+  display: block;
+  height: auto;
+  margin: 0.55em auto;
+  max-height: 330px;
+  max-width: 92%;
+}
+
+figcaption {
+  color: #45545c;
+  font-size: 8.8pt;
+  line-height: 1.25;
+  margin: 0.2em auto 0.65em;
+  max-width: 92%;
+  text-align: center;
+}
+
+code {
+  font-size: 9pt;
+}
+
+.cover {
+  color: var(--navy);
+  display: flex;
+  flex-direction: column;
+  min-height: 22.5cm;
+  text-align: center;
+}
+
+.cover h1 {
+  font-size: 31pt;
+  line-height: 1.12;
+  margin: 0.65em auto 0.3em;
+  max-width: 90%;
+}
+
+.cover h2 {
+  color: var(--blue);
+  font-size: 18pt;
+  margin: 0.3em 0;
+}
+
+.cover-brand {
+  color: var(--navy);
+  font-size: 44pt;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  margin-top: 2.3cm;
+}
+
+.cover-rule {
+  background: var(--blue);
+  height: 4px;
+  margin: 0.8cm auto;
+  width: 32%;
+}
+
+.cover-spacer {
+  flex: 1;
+  min-height: 2.5cm;
+}
+
+.page-break {
+  break-after: page;
+  page-break-after: always;
+}
+
+figure,
+table,
+pre {
+  page-break-inside: avoid;
+}
