@@ -1,0 +1,13 @@
+prediction_id,timestamp,model_version,predicted_category,confidence,latency_ms,status,has_cited_title,has_cited_abstract,citation_context_length,actual_category,validation_source
+pred_001,2026-08-20T14:32:18-05:00,v1.0.0,cs.CV,0.92,182,success,true,true,128,cs.CV,expert
+pred_002,2026-08-20T14:32:15-05:00,v1.0.0,cs.LG,0.81,156,success,true,true,164,,
+pred_003,2026-08-20T14:32:11-05:00,v1.0.0,cs.AI,0.74,201,success,true,true,92,cs.LG,user
+pred_004,2026-08-20T14:32:08-05:00,v1.0.0,cs.CL,0.89,175,success,true,true,141,cs.CL,expert
+pred_005,2026-08-20T14:32:05-05:00,v1.0.0,cs.RO,0.67,268,error,true,false,76,,
+pred_006,2026-08-19T11:25:44-05:00,v1.0.0,cs.NE,0.76,194,success,true,true,118,cs.NE,expert
+pred_007,2026-08-19T10:18:03-05:00,v1.0.0,cs.IR,0.71,210,success,true,true,105,,
+pred_008,2026-08-18T16:47:30-05:00,v1.0.0,cs.MA,0.69,225,success,false,true,132,cs.MA,user
+pred_009,2026-08-18T09:14:55-05:00,v1.0.0,cs.CV,0.87,171,success,true,true,154,cs.CV,expert
+pred_010,2026-08-17T15:03:19-05:00,v1.0.0,cs.LG,0.84,163,success,true,true,99,cs.LG,expert
+pred_011,2026-08-17T13:42:10-05:00,v1.0.0,cs.CV,0.79,188,success,true,true,121,,
+pred_012,2026-08-16T17:08:42-05:00,v1.0.0,cs.CL,0.73,231,success,true,false,83,cs.CL,user

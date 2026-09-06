@@ -1,0 +1,10 @@
+[
+  {"code":"cs.CV","name":"Computer Vision and Pattern Recognition","nameEs":"Visión por computador","color":"#1677e8"},
+  {"code":"cs.LG","name":"Machine Learning","nameEs":"Aprendizaje automático","color":"#36a3e8"},
+  {"code":"cs.CL","name":"Computation and Language","nameEs":"Procesamiento de lenguaje natural","color":"#6f7bf7"},
+  {"code":"cs.AI","name":"Artificial Intelligence","nameEs":"Inteligencia artificial","color":"#8b5cf6"},
+  {"code":"cs.NE","name":"Neural and Evolutionary Computing","nameEs":"Cómputo neuronal y evolutivo","color":"#12b5cb"},
+  {"code":"cs.RO","name":"Robotics","nameEs":"Robótica","color":"#18a87b"},
+  {"code":"cs.IR","name":"Information Retrieval","nameEs":"Recuperación de información","color":"#f59e0b"},
+  {"code":"cs.MA","name":"Multiagent Systems","nameEs":"Sistemas multiagente","color":"#ef6c6c"}
+]
