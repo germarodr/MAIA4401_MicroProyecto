@@ -56,9 +56,10 @@ El 100% de los registros contiene contexto de cita; el 97,9% tiene un título ci
 
 ## 1.4 Cambios respecto a la Entrega 1
 
-La Entrega 1 delimitó el problema, seleccionó la fuente de datos, construyó el dataset y definió la maqueta inicial. Desde entonces se implementó una partición reproducible sin cruce de artículos citantes, se entrenaron modelos clásicos y basados en SciBERT, se registraron experimentos en MLflow y se realizó una evaluación final sobre el conjunto de test reservado. También se desarrolló un prototipo navegable del tablero, cuya integración con la API y el modelo se encuentra en progreso.
+La Entrega 1 delimitó el problema, seleccionó la fuente de datos, construyó el dataset y definió la maqueta inicial. Para esta segunda entrega se implementó una partición reproducible sin cruce de artículos citantes, se entrenaron y compararon modelos clásicos y basados en SciBERT, se registraron los experimentos en MLflow y se realizó una única evaluación final sobre el conjunto de test reservado. Además, se seleccionó y versionó SciBERT Plus como modelo `champion`, y se actualizaron los mockups con sus resultados reales.
 
-<!-- PASO 2: completar y revisar la sección de modelos con resultados reales. -->
+También se construyó un frontend navegable que materializa la propuesta visual de la Entrega 1. El prototipo incluye las vistas de inicio, clasificación, monitoreo, detalle de una predicción y evaluación del modelo. Actualmente consume archivos JSON locales: la evaluación presenta las métricas reales de esta entrega, mientras que la clasificación y el monitoreo usan datos demostrativos. La integración con la API de inferencia y el modelo registrado queda como el siguiente paso para convertirlo en una aplicación completamente funcional. Este avance del frontend se presenta en la **Figura 6**, donde se observa la vista de evaluación implementada con los resultados reales del modelo.
+
 
 # 2. Modelos desarrollados y evaluación
 
@@ -122,8 +123,6 @@ El desempeño más alto corresponde a `cs.RO`, seguido de `cs.MA` y `cs.CL`. La 
   <figcaption><strong>Figura 5.</strong> Matriz de confusión de SciBERT Plus sobre 800 observaciones de test. Cada clase contiene 100 ejemplos.</figcaption>
 </figure>
 
-<!-- PASO 3: incorporar capturas verificables de MLflow y EC2. -->
-
 # 3. Experimentos y trazabilidad con MLflow
 
 ## 3.1 Configuración y corridas registradas
@@ -167,7 +166,7 @@ Las evidencias visuales deben mostrar la correspondencia entre la infraestructur
   <figcaption><strong>Figura 4.</strong> Artefactos de test almacenados en MLflow: reporte por clase, matriz de confusión, predicciones con probabilidades y resumen reproducible de la evaluación.</figcaption>
 </figure>
 
-<!-- PASO 4: redactar conclusiones a partir de las métricas finales. -->
+
 
 # 4. Observaciones y conclusiones sobre los modelos
 
@@ -181,21 +180,51 @@ El análisis por clase revela que el desempeño no es uniforme. `cs.RO`, `cs.MA`
 
 En conclusión, **SciBERT Plus versión 1** se selecciona como modelo del prototipo por ser la alternativa individual con mejor validación, contar con una evaluación de test aislada y disponer de un artefacto reproducible en MLflow bajo el alias `champion`. Antes de considerar un uso más amplio se requiere estudiar calibración de probabilidades, ampliar y actualizar los datos, revisar la taxonomía de categorías cercanas, cuantificar el costo de inferencia y evaluar el efecto del solapamiento residual de obras citadas entre particiones.
 
-<!-- PASO 5: actualizar después de integrar frontend y API. -->
-
 # 5. Tablero desarrollado
 
 ## 5.1 Funcionalidades y relación con la pregunta de negocio
 
+Se desarrolló un prototipo web navegable de **CiteScope** para llevar el resultado del modelo a una interfaz comprensible para el usuario. El tablero organiza el flujo en cinco vistas:
+
+| Vista | Funcionalidad disponible | Relación con el objetivo del proyecto |
+|---|---|---|
+| Inicio (`/`) | Presenta el propósito de CiteScope y permite acceder a las funciones principales. | Explica el problema de clasificación de citas científicas. |
+| Clasificar (`/clasificar`) | Recibe el contexto de la cita, el título y el resumen del artículo citado; muestra la categoría, la confianza y las probabilidades por clase. | Representa el flujo principal de inferencia requerido por la pregunta de negocio. |
+| Monitoreo (`/monitoreo`) | Presenta indicadores, distribución de categorías, volumen e historial de solicitudes con filtros. | Permite observar el uso y el comportamiento operativo esperado del servicio. |
+| Detalle (`/monitoreo/[predictionId]`) | Muestra la trazabilidad de una predicción individual. | Facilita la revisión de la respuesta producida para una solicitud concreta. |
+| Evaluación (`/evaluacion`) | Presenta accuracy, Macro F1, Weighted F1, desempeño por clase, matriz de confusión y comparación de modelos. | Comunica las fortalezas, limitaciones y errores del modelo seleccionado. |
+
+La vista de evaluación fue actualizada frente al mockup inicial para mostrar porcentajes consistentes y los resultados reales de SciBERT Plus sobre el test reservado. La matriz conserva valores absolutos porque representan cantidades de observaciones y permiten revisar directamente los aciertos y las confusiones entre clases.
+
 ## 5.2 Integración con el modelo
+
+El frontend fue desarrollado con **Next.js 16**, **React 19** y **TypeScript**. La interfaz utiliza **Tailwind CSS 4**, estilos mediante **CSS Modules**, componentes de iconografía de **Lucide React** y componentes gráficos preparados con **Recharts**. El diseño es adaptable a dispositivos móviles y separa la presentación de la fuente de datos mediante una capa ubicada en `src/lib/mock-data.ts`.
+
+En el estado actual, las pantallas consumen archivos JSON locales almacenados en `frontend/data/`. Estos archivos funcionan como contrato temporal y reproducen la estructura que deberá entregar la API. Por esta razón, el prototipo permite validar navegación, contenido y experiencia de usuario, pero todavía no ejecuta inferencias reales ni consulta MLflow en tiempo real.
+
+La siguiente etapa consiste en reemplazar la capa de datos simulados por un cliente HTTP conectado a la API del proyecto. Esta API deberá cargar el modelo `models:/CiteScope-SciBERT-Plus@champion`, recibir los tres campos de entrada, ejecutar la inferencia y devolver la categoría, confianza y probabilidades. También deberá exponer el historial, el resumen de monitoreo y la evaluación para que todas las vistas sean funcionales con información persistida y actualizada.
 
 ## 5.3 Evidencias del tablero
 
-<!-- PASO 6: consolidar enlaces, commits y evidencia individual. -->
+Para mostrar el avance de manera verificable se combinan tres evidencias complementarias: el mockup actualizado, la implementación navegable y el código que define su contrato de datos.
+
+| Evidencia | Estado | Enlace |
+|---|---|---|
+| Mockups de las cinco vistas | Completado | [Carpeta `mockups`](https://github.com/germarodr/MAIA4401_MicroProyecto/tree/dev/mockups) |
+| Frontend navegable | Completado con datos locales | [Carpeta `frontend`](https://github.com/germarodr/MAIA4401_MicroProyecto/tree/dev/frontend) |
+| Vista de evaluación con resultados reales | Completado | [`frontend/src/app/evaluacion`](https://github.com/germarodr/MAIA4401_MicroProyecto/tree/dev/frontend/src/app/evaluacion) |
+| Contrato temporal de respuestas JSON | Completado | [`frontend/data`](https://github.com/germarodr/MAIA4401_MicroProyecto/tree/dev/frontend/data) |
+| Conexión con la API y ejecución del modelo | Pendiente | Se integrará en la siguiente fase del proyecto. |
+
+<figure>
+  <img src="images/frontend-evaluacion.png" alt="Vista de evaluación implementada en el frontend navegable de CiteScope">
+  <figcaption><strong>Figura 6.</strong> Vista de evaluación implementada y ejecutada localmente. Presenta las métricas reales de SciBERT Plus, la matriz de confusión, el F1 por subárea y la comparación de modelos.</figcaption>
+</figure>
+
 
 # 6. Repositorio, fuentes y soportes
 
-El código, los notebooks y las evidencias del proyecto se encuentran en el repositorio [MAIA4401_MicroProyecto](https://github.com/germarodr/MAIA4401_MicroProyecto), en la rama principal `main`, después de integrar los aportes desarrollados en las ramas de trabajo. La siguiente tabla relaciona los principales elementos que respaldan los resultados presentados.
+El código, los notebooks y las evidencias del proyecto se encuentran en el repositorio [MAIA4401_MicroProyecto](https://github.com/germarodr/MAIA4401_MicroProyecto). El avance descrito en esta entrega se encuentra consolidado en la rama [`dev`](https://github.com/germarodr/MAIA4401_MicroProyecto/tree/dev), desde la cual se integrarán posteriormente los cambios a la rama principal. La siguiente tabla relaciona los principales elementos que respaldan los resultados presentados.
 
 | Elemento | Ruta o evidencia |
 |---|---|
@@ -210,18 +239,31 @@ El código, los notebooks y las evidencias del proyecto se encuentran en el repo
 | Resultados reproducibles | `models/artifacts/*.csv` |
 | Modelo registrado | `CiteScope-SciBERT-Plus`, versión 1, alias `champion` |
 | Mockups | `mockups/` |
+| Frontend navegable | `frontend/` |
+| Datos temporales del frontend | `frontend/data/` |
+| Evidencia visual del frontend | `Reportes/Entrega2/images/frontend-evaluacion.png` |
 | Evidencias de MLflow | `Reportes/Entrega2/images/` |
 | Reporte | `Reportes/Entrega2/Entrega2_CiteScope.md` |
 
-Git conserva la trazabilidad de los aportes individuales mediante commits; DVC identifica la versión del dataset y MLflow centraliza parámetros, métricas, artefactos y versiones del modelo.
+Los principales cambios relacionados con el diseño y el desarrollo del frontend se pueden verificar directamente en el historial del mismo repositorio:
+
+| Cambio verificable | Commit |
+|---|---|
+| Creación de los mockups iniciales y aporte al análisis exploratorio | [`1c5c9b4`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/1c5c9b4a07bf561cd6988b58b01bb1f7c616f4bc) |
+| Primera versión del frontend y definición de datos simulados | [`452a9d8`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/452a9d851a90a46dfdd260ad7b9cb350bc9b168d) |
+| Actualización del mockup de evaluación para la Entrega 2 | [`dd37455`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/dd37455f4dd7ac18efd09e8e7df8bffa255fc770) |
+| Actualización del frontend con las métricas reales de evaluación | [`b981a2e`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/b981a2e81d1a2354485116007dec6a37737805c3) |
+| Integración de la rama de frontend en `dev` | [`9fd2009`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/9fd2009a261d9205f790d6ab8c80599c91e78d6c) |
+| Sincronización final de cambios en `dev` y actualización del reporte | [`66d0316`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/66d0316b4685281b33cfa7f6067b4c26828be8c4) |
+
+De esta manera, Git conserva la trazabilidad de los aportes individuales, DVC identifica la versión del dataset y MLflow centraliza parámetros, métricas, artefactos y versiones del modelo.
 
 # 7. Reporte de trabajo en equipo
 
 | Integrante | Actividades realizadas | Evidencias |
 |---|---|---|
 | Jose Arteaga | Configuró la infraestructura en AWS EC2, el acceso SSH, el servicio de MLflow y su almacenamiento remoto. Implementó el registro y versionamiento de experimentos y del modelo SciBERT Plus, gestionó los alias `candidate` y `champion`, y ejecutó la evaluación final sobre test. También documentó las métricas, artefactos y evidencias de la entrega. | Notebooks `07_scibert_plus.ipynb` y `08_evaluacion_test.ipynb`; modelo `CiteScope-SciBERT-Plus` v1; capturas de AWS/MLflow; commits `74eb914`, `442777b`, `d93ea90`, `afb5ffa`, `b108dbc` y `893d668`. |
-
-<!-- Agregar las contribuciones verificables de los demás integrantes. -->
+| Sebastian Toro | Diseñe los mockups iniciales y actualizó la vista de evaluación con los resultados reales de la Entrega 2. Desarrolló la primera versión navegable del frontend con Next.js, React y TypeScript, incorporó datos simulados para representar el futuro contrato con la API y ajustó la pantalla de evaluación para mostrar las métricas, la matriz de confusión y la comparación de modelos. También integró el trabajo de frontend en la rama `dev` y aportó a la actualización del reporte. | Carpetas `mockups/`, `frontend/` y `db/`; captura `Reportes/Entrega2/images/frontend-evaluacion.png`; commits [`1c5c9b4`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/1c5c9b4a07bf561cd6988b58b01bb1f7c616f4bc), [`452a9d8`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/452a9d851a90a46dfdd260ad7b9cb350bc9b168d), [`dd37455`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/dd37455f4dd7ac18efd09e8e7df8bffa255fc770), [`b981a2e`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/b981a2e81d1a2354485116007dec6a37737805c3), [`9fd2009`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/9fd2009a261d9205f790d6ab8c80599c91e78d6c) y [`66d0316`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/66d0316b4685281b33cfa7f6067b4c26828be8c4). |
 
 # 8. Conclusiones finales
 
