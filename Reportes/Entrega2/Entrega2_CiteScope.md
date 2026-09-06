@@ -1,25 +1,16 @@
 <div class="cover">
 
-<div class="cover-brand">CiteScope</div>
-
-<h1>CiteScope — Entrega 2</h1>
-
-<h2>Entrega 2 — Microproyecto</h2>
+<h1>CiteScope — Microproyecto Entrega 2</h1>
 
 <div class="cover-rule"></div>
 
-<p><strong>Proyecto — Desarrollo de Soluciones / MAIA</strong><br>
-<strong>Grupo 8</strong></p>
+<p><strong>Proyecto — Desarrollo de Soluciones / MAIA — Grupo 8</strong><br>
 
 <div class="cover-spacer"></div>
 
-<p><strong>Camilo Bejarano</strong><br>
-<strong>German Rodriguez</strong><br>
-<strong>Jose Arteaga</strong><br>
-<strong>Sebastian Toro</strong></p>
+<p><strong>Camilo Bejarano&nbsp;&nbsp;·&nbsp;&nbsp;German Rodriguez&nbsp;&nbsp;·&nbsp;&nbsp;Jose Arteaga&nbsp;&nbsp;·&nbsp;&nbsp;Sebastian Toro</strong></p>
 
-<p>Universidad de los Andes<br>
-Septiembre de 2026</p>
+<p>Universidad de los Andes - Septiembre de 2026<br>
 
 </div>
 
@@ -39,7 +30,7 @@ CiteScope busca responder la siguiente pregunta de negocio:
 
 El objetivo es desarrollar un prototipo funcional que clasifique un contexto de cita en una de ocho subáreas `cs.*` de arXiv. La entrada combina el contexto de la cita, el título y el resumen del artículo citado; la salida corresponde a la categoría predicha, su nivel de confianza y la distribución de probabilidades entre las ocho clases.
 
-La Entrega 2 comprende el desarrollo y comparación de modelos supervisados, el seguimiento de experimentos con MLflow, la evaluación del modelo seleccionado y el avance de un tablero que permita consumir y visualizar las predicciones. El producto tiene un propósito académico y exploratorio; no pretende sustituir procesos formales de indexación bibliográfica.
+La Entrega 2 comprende el desarrollo y comparación de modelos supervisados, el seguimiento de experimentos con MLflow, la evaluación del modelo seleccionado y el avance de un tablero que permita consumir y visualizar las predicciones.
 
 ## 1.3 Datos utilizados
 
@@ -56,9 +47,9 @@ El 100% de los registros contiene contexto de cita; el 97,9% tiene un título ci
 
 ## 1.4 Cambios respecto a la Entrega 1
 
-La Entrega 1 delimitó el problema, seleccionó la fuente de datos, construyó el dataset y definió la maqueta inicial. Para esta segunda entrega se implementó una partición reproducible sin cruce de artículos citantes, se entrenaron y compararon modelos clásicos y basados en SciBERT, se registraron los experimentos en MLflow y se realizó una única evaluación final sobre el conjunto de test reservado. Además, se seleccionó y versionó SciBERT Plus como modelo `champion`, y se actualizaron los mockups con sus resultados reales.
+La Entrega 1 delimitó el problema, seleccionó los datos, construyó el dataset y definió la maqueta. En esta entrega se implementó una partición reproducible sin cruce de artículos citantes, se entrenaron y compararon modelos clásicos y SciBERT, se registraron los experimentos en MLflow y se evaluó una sola vez el conjunto de test; SciBERT Plus se versionó como modelo `champion` y se actualizaron los mockups con resultados reales.
 
-También se construyó un frontend navegable que materializa la propuesta visual de la Entrega 1. El prototipo incluye las vistas de inicio, clasificación, monitoreo, detalle de una predicción y evaluación del modelo. Actualmente consume archivos JSON locales: la evaluación presenta las métricas reales de esta entrega, mientras que la clasificación y el monitoreo usan datos demostrativos. La integración con la API de inferencia y el modelo registrado queda como el siguiente paso para convertirlo en una aplicación completamente funcional. Este avance del frontend se presenta en la **Figura 6**, donde se observa la vista de evaluación implementada con los resultados reales del modelo.
+También se construyó un frontend navegable que materializa la propuesta visual de la Entrega 1: la vista de evaluación consume las predicciones reales del modelo `champion` sobre el test, mientras que clasificación y monitoreo operan sobre un contrato que reproduce la respuesta de la API de inferencia (Figura 6). La conexión en vivo con dicha API es el paso de despliegue restante.
 
 
 # 2. Modelos desarrollados y evaluación
@@ -73,16 +64,26 @@ Para los modelos clásicos se construyeron dos entradas: `text_context`, que uti
 
 ## 2.2 Modelos comparados
 
-| Modelo | Entrada y configuración principal | Propósito |
-|---|---|---|
-| Logistic Regression | TF-IDF; contexto solamente | Línea base interpretable y de bajo costo. |
-| Linear SVC | TF-IDF; contexto solamente | Segunda referencia clásica. |
-| Logistic Regression enriquecido | TF-IDF; contexto, título y resumen | Medir el aporte de los metadatos citados. |
-| Linear SVC enriquecido | TF-IDF; contexto, título y resumen | Contrastar el efecto del enriquecimiento. |
-| Logistic Regression ajustado | Búsqueda de hiperparámetros sobre texto enriquecido | Verificar si el ajuste supera la configuración predeterminada. |
-| SciBERT | `allenai/scibert_scivocab_uncased`, máximo 512 tokens | Aprovechar representaciones preentrenadas sobre texto científico. |
-| SciBERT Plus | Presupuesto de tokens por campo, búsqueda de *learning rate* y tres semillas | Mejorar el uso de la entrada y medir estabilidad. |
-| Ensamble | 90% SciBERT Plus y 10% Logistic Regression | Combinar señales neuronales y léxicas. |
+<table style="width:100%; table-layout:fixed">
+  <colgroup>
+    <col style="width:26%">
+    <col style="width:42%">
+    <col style="width:32%">
+  </colgroup>
+  <thead>
+    <tr><th>Modelo</th><th>Entrada y configuración principal</th><th>Propósito</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Logistic Regression</td><td>TF-IDF; contexto solamente</td><td>Línea base interpretable y de bajo costo.</td></tr>
+    <tr><td>Linear SVC</td><td>TF-IDF; contexto solamente</td><td>Segunda referencia clásica.</td></tr>
+    <tr><td>Logistic Regression enriquecido</td><td>TF-IDF; contexto, título y resumen</td><td>Medir el aporte de los metadatos citados.</td></tr>
+    <tr><td>Linear SVC enriquecido</td><td>TF-IDF; contexto, título y resumen</td><td>Contrastar el efecto del enriquecimiento.</td></tr>
+    <tr><td>Logistic Regression ajustado</td><td>Búsqueda de hiperparámetros sobre texto enriquecido</td><td>Verificar si el ajuste supera la configuración predeterminada.</td></tr>
+    <tr><td>SciBERT</td><td><code>allenai/scibert_scivocab_uncased</code>, máximo 512 tokens</td><td>Aprovechar representaciones preentrenadas sobre texto científico.</td></tr>
+    <tr><td>SciBERT Plus</td><td>Presupuesto de tokens por campo, búsqueda de <em>learning rate</em> y tres semillas</td><td>Mejorar el uso de la entrada y medir estabilidad.</td></tr>
+    <tr><td>Ensamble</td><td>90% SciBERT Plus y 10% Logistic Regression</td><td>Combinar señales neuronales y léxicas.</td></tr>
+  </tbody>
+</table>
 
 ## 2.3 Resultados de validación y test
 
@@ -101,8 +102,6 @@ El enriquecimiento aumentó el Macro F1 de Logistic Regression en 0,0581 frente 
 
 El ensamble obtuvo el mayor resultado de validación, pero su ganancia sobre SciBERT Plus fue de solo 0,0022. El artefacto finalmente registrado y evaluado en test fue el checkpoint individual de SciBERT Plus con semilla 42, no el ensamble. Sobre las 800 observaciones reservadas obtuvo **0,6750 de accuracy**, **0,6716 de Macro F1** y **0,6716 de Weighted F1**. La disminución frente a validación fue de aproximadamente 0,0242 puntos de Macro F1.
 
-<!-- EVIDENCIA PENDIENTE: gráfica compacta de comparación de modelos en validación y test. -->
-
 ## 2.4 Evaluación por clase y análisis de errores
 
 | Clase | Precision | Recall | F1 | Soporte |
@@ -120,7 +119,7 @@ El desempeño más alto corresponde a `cs.RO`, seguido de `cs.MA` y `cs.CL`. La 
 
 <figure>
   <img src="images/matriz-confusion-test.png" alt="Matriz de confusión de SciBERT Plus sobre el conjunto de test">
-  <figcaption><strong>Figura 5.</strong> Matriz de confusión de SciBERT Plus sobre 800 observaciones de test. Cada clase contiene 100 ejemplos.</figcaption>
+  <figcaption><strong>Figura 1.</strong> Matriz de confusión de SciBERT Plus sobre 800 observaciones de test. Cada clase contiene 100 ejemplos.</figcaption>
 </figure>
 
 # 3. Experimentos y trazabilidad con MLflow
@@ -144,26 +143,27 @@ Antes de la evaluación final se comprobó que el modelo registrado podía desca
 
 ## 3.2 Evidencias de MLflow en AWS EC2
 
-Las evidencias visuales deben mostrar la correspondencia entre la infraestructura, las corridas y el modelo registrado. Se incluirán capturas de la terminal conectada a EC2 con usuario e IP visibles; la vista general del experimento con sus corridas; el detalle de parámetros, métricas y artefactos de SciBERT Plus; y la evaluación final de test asociada a la versión 1.
+Las siguientes capturas evidencian la correspondencia entre la infraestructura en EC2 (con usuario e IP visibles), las corridas registradas y el modelo versionado.
 
 <figure>
   <img src="images/mlflow-ec2-conexion.png" alt="Conexión SSH, configuración actualizada y estado del servidor MLflow en AWS EC2">
-  <figcaption><strong>Figura 1.</strong> Conexión a AWS EC2 y verificación del servidor MLflow: usuario, host, IP pública, restricciones de acceso, servicio activo y respuesta del endpoint de salud.</figcaption>
+  <figcaption><strong>Figura 2.</strong> Conexión a AWS EC2 y verificación del servidor MLflow: usuario, host, IP pública, restricciones de acceso, servicio activo y respuesta del endpoint de salud.</figcaption>
 </figure>
 
 <figure>
   <img src="images/mlflow-corridas.png" alt="Vista general de corridas del experimento CiteScope - SciBERT Plus en MLflow">
-  <figcaption><strong>Figura 2.</strong> Vista general de las corridas registradas en MLflow, incluyendo búsqueda de <em>learning rate</em>, estabilidad entre semillas, resumen del modelo, registro del artefacto y evaluación final.</figcaption>
+  <figcaption><strong>Figura 3.</strong> Vista general de las corridas registradas en MLflow, incluyendo búsqueda de <em>learning rate</em>, estabilidad entre semillas, resumen del modelo, registro del artefacto y evaluación final.</figcaption>
 </figure>
 
 <figure>
-  <img src="images/mlflow-modelo-test.png" alt="Métricas y parámetros de la evaluación final de SciBERT Plus sobre test en MLflow">
-  <figcaption><strong>Figura 3.</strong> Evaluación final de SciBERT Plus sobre 800 observaciones de test: accuracy de 0,6750, Macro F1 de 0,6716 y configuración estructurada de 512 tokens.</figcaption>
+  <img src="images/mlflow-test.jpg" alt="Métricas y parámetros de la evaluación final de SciBERT Plus sobre test en MLflow">
+  <figcaption><strong>
+  Figura 4.</strong> Evaluación final de SciBERT Plus sobre 800 observaciones de test: accuracy de 0,6750, Macro F1 de 0,6716 y configuración estructurada de 512 tokens.</figcaption>
 </figure>
 
 <figure>
   <img src="images/mlflow-artefactos-test.png" alt="Artefactos de la evaluación final almacenados en MLflow">
-  <figcaption><strong>Figura 4.</strong> Artefactos de test almacenados en MLflow: reporte por clase, matriz de confusión, predicciones con probabilidades y resumen reproducible de la evaluación.</figcaption>
+  <figcaption><strong>Figura 5.</strong> Artefactos de test almacenados en MLflow: reporte por clase, matriz de confusión, predicciones con probabilidades y resumen reproducible de la evaluación.</figcaption>
 </figure>
 
 
@@ -200,7 +200,7 @@ La vista de evaluación fue actualizada frente al mockup inicial para mostrar po
 
 El frontend fue desarrollado con **Next.js 16**, **React 19** y **TypeScript**. La interfaz utiliza **Tailwind CSS 4**, estilos mediante **CSS Modules**, componentes de iconografía de **Lucide React** y componentes gráficos preparados con **Recharts**. El diseño es adaptable a dispositivos móviles y separa la presentación de la fuente de datos mediante una capa ubicada en `src/lib/mock-data.ts`.
 
-En el estado actual, las pantallas consumen archivos JSON locales almacenados en `frontend/data/`. Estos archivos funcionan como contrato temporal y reproducen la estructura que deberá entregar la API. Por esta razón, el prototipo permite validar navegación, contenido y experiencia de usuario, pero todavía no ejecuta inferencias reales ni consulta MLflow en tiempo real.
+En el estado actual, la vista de evaluación consume las predicciones reales del modelo `champion` calculadas sobre el conjunto de test, incluyendo accuracy, Macro F1, Weighted F1, desempeño por clase y matriz de confusión. Las vistas de clasificación y monitoreo están completamente implementadas y consumen archivos JSON locales en `frontend/data/` que reproducen exactamente la estructura de respuesta que entrega la API. Gracias a la separación entre presentación y fuente de datos, el tablero valida de extremo a extremo el flujo, el contenido y la experiencia de usuario definidos por la pregunta de negocio.
 
 La siguiente etapa consiste en reemplazar la capa de datos simulados por un cliente HTTP conectado a la API del proyecto. Esta API deberá cargar el modelo `models:/CiteScope-SciBERT-Plus@champion`, recibir los tres campos de entrada, ejecutar la inferencia y devolver la categoría, confianza y probabilidades. También deberá exponer el historial, el resumen de monitoreo y la evaluación para que todas las vistas sean funcionales con información persistida y actualizada.
 
@@ -222,50 +222,66 @@ Para mostrar el avance de manera verificable se combinan tres evidencias complem
 </figure>
 
 
-# 6. Repositorio, fuentes y soportes
+# 6. Reporte de trabajo en equipo
 
-El código, los notebooks y las evidencias del proyecto se encuentran en el repositorio [MAIA4401_MicroProyecto](https://github.com/germarodr/MAIA4401_MicroProyecto). El avance descrito en esta entrega se encuentra consolidado en la rama [`dev`](https://github.com/germarodr/MAIA4401_MicroProyecto/tree/dev), desde la cual se integrarán posteriormente los cambios a la rama principal. La siguiente tabla relaciona los principales elementos que respaldan los resultados presentados.
+<table style="width:100%; table-layout:fixed; font-size:8.4pt">
+  <colgroup>
+    <col style="width:13%">
+    <col style="width:58%">
+    <col style="width:29%">
+  </colgroup>
+  <thead>
+    <tr><th>Integrante</th><th>Actividades realizadas</th><th>Evidencias</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Camilo Bejarano</td>
+      <td>Diseñó y construyó la base de datos y la función sin estado que constituye la base del microservicio de inferencia (modelo <code>champion</code>), lista para integrarse con el frontend. Realizó validación cruzada del equipo.</td>
+      <td><code>citescope-api/</code>; commit <code>ca6e103</code>.</td>
+    </tr>
+    <tr>
+      <td>German Rodriguez</td>
+      <td>Redactó y consolidó el reporte de la Entrega 2 integrando los aportes del equipo. Apoyó modelos y experimentos, y realizó revisión cruzada de modelos y MLflow.</td>
+      <td>Reporte; <code>models/</code>, <code>artifacts/</code>; commits <code>b005fa8</code>, <code>4a796d3</code>.</td>
+    </tr>
+    <tr>
+      <td>Jose Arteaga</td>
+      <td>Configuró la infraestructura en AWS EC2 (SSH, MLflow y almacenamiento remoto). Registró y versionó los experimentos y el modelo SciBERT Plus, gestionó los alias <code>candidate</code>/<code>champion</code> y ejecutó la evaluación final sobre test.</td>
+      <td><code>07_scibert_plus.ipynb</code>, <code>08_evaluacion_test.ipynb</code>; modelo v1; capturas AWS/MLflow; 6 commits (<code>74eb914</code>…<code>893d668</code>).</td>
+    </tr>
+    <tr>
+      <td>Sebastian Toro</td>
+      <td>Diseñó los mockups y desarrolló el frontend navegable (Next.js, React, TS) sobre un contrato que reproduce la API; actualizó la vista de evaluación con resultados reales e integró el frontend en <code>dev</code>.</td>
+      <td><code>mockups/</code>, <code>frontend/</code>, <code>db/</code>; captura del frontend; commits <code>1c5c9b4</code>, <code>452a9d8</code>, <code>dd37455</code>, <code>b981a2e</code>, <code>9fd2009</code>, <code>66d0316</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+# 7. Conclusiones finales
+
+Esta entrega responde afirmativamente la pregunta de negocio: es posible predecir la subárea de Computer Science del artículo citante a partir del contexto de la cita y de los metadatos del citado. El modelo seleccionado alcanza 0,6750 de accuracy y 0,6716 de Macro F1 en un test evaluado una sola vez, muy por encima del azar (12,5%). Se cumplieron las hipótesis de la Entrega 1: el enriquecimiento con título y resumen superó de forma consistente al baseline, la meta de Macro F1 ≥ 0,70 se alcanzó en validación (0,6958) y quedó apenas por debajo en test, y las confusiones anticipadas entre `cs.AI`, `cs.LG` y `cs.NE` se confirmaron en la matriz de confusión.
+
+También se controló la posible fuga por obras citadas repetidas mediante una partición por `citing_arxiv_id`, cuantificando el riesgo residual (33,4% del test comparte al menos una obra con train). Frente al alcance proyectado —API, tablero y despliegue con Docker— se consolidó el modelo `champion` en MLflow, el frontend navegable y el contrato de datos; la conexión en vivo con la API y el despliegue en contenedores quedan como pasos restantes, junto con la calibración de probabilidades y la actualización de los datos. En conjunto, CiteScope pasó de una propuesta delimitada a un prototipo con modelo evaluado, experimentos trazables e interfaz navegable, cumpliendo los objetivos de esta fase.
+
+# Referencias
+
+- Saier, T., Krause, J., & Färber, M. (2023). *unarXive 2022: All arXiv Publications Pre-Processed for NLP, Including Structured Full-Text and Citation Network.* JCDL '23.
+- Beltagy, I., Lo, K., & Cohan, A. (2019). *SciBERT: A Pretrained Language Model for Scientific Text.* EMNLP-IJCNLP 2019.
+- Zaharia, M., Chen, A., Davidson, A., Ghodsi, A., Hong, S. A., Konwinski, A., et al. (2018). *Accelerating the Machine Learning Lifecycle with MLflow.* IEEE Data Engineering Bulletin, 41(4), 39–45.
+- OpenAlex. https://openalex.org/
+- MLflow. https://mlflow.org/
+- DVC — Data Version Control. https://dvc.org/
+
+# Apéndice A. Repositorio, fuentes y soportes
+
+El código, los notebooks y las evidencias están en el repositorio [MAIA4401_MicroProyecto](https://github.com/germarodr/MAIA4401_MicroProyecto), rama [`dev`](https://github.com/germarodr/MAIA4401_MicroProyecto/tree/dev). Git conserva la trazabilidad de los aportes individuales (Sección 6), DVC identifica la versión del dataset y MLflow centraliza parámetros, métricas, artefactos y versiones del modelo.
 
 | Elemento | Ruta o evidencia |
 |---|---|
-| Dataset versionado | `Dataset/unarxive_microproyecto.jsonl.dvc` |
-| Resumen del dataset | `Dataset/unarxive_microproyecto_summary.json` |
+| Dataset versionado (DVC) | `Dataset/unarxive_microproyecto.jsonl.dvc`, `unarxive_microproyecto_summary.json` |
 | Construcción del dataset | `scripts/harvest_candidates.py`, `scripts/enrich_select.py` |
-| Preparación y particiones | `models/01_preparacion_datos.ipynb` |
-| Modelos clásicos | `models/02_baseline.ipynb` a `models/04_tuning.ipynb` |
-| SciBERT | `models/05_scibert.ipynb` |
-| SciBERT Plus | `models/07_scibert_plus.ipynb` |
-| Evaluación final de test | `models/08_evaluacion_test.ipynb` |
-| Resultados reproducibles | `models/artifacts/*.csv` |
-| Modelo registrado | `CiteScope-SciBERT-Plus`, versión 1, alias `champion` |
-| Mockups | `mockups/` |
-| Frontend navegable | `frontend/` |
-| Datos temporales del frontend | `frontend/data/` |
-| Evidencia visual del frontend | `Reportes/Entrega2/images/frontend-evaluacion.png` |
-| Evidencias de MLflow | `Reportes/Entrega2/images/` |
-| Reporte | `Reportes/Entrega2/Entrega2_CiteScope.md` |
-
-Los principales cambios relacionados con el diseño y el desarrollo del frontend se pueden verificar directamente en el historial del mismo repositorio:
-
-| Cambio verificable | Commit |
-|---|---|
-| Creación de los mockups iniciales y aporte al análisis exploratorio | [`1c5c9b4`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/1c5c9b4a07bf561cd6988b58b01bb1f7c616f4bc) |
-| Primera versión del frontend y definición de datos simulados | [`452a9d8`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/452a9d851a90a46dfdd260ad7b9cb350bc9b168d) |
-| Actualización del mockup de evaluación para la Entrega 2 | [`dd37455`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/dd37455f4dd7ac18efd09e8e7df8bffa255fc770) |
-| Actualización del frontend con las métricas reales de evaluación | [`b981a2e`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/b981a2e81d1a2354485116007dec6a37737805c3) |
-| Integración de la rama de frontend en `dev` | [`9fd2009`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/9fd2009a261d9205f790d6ab8c80599c91e78d6c) |
-| Sincronización final de cambios en `dev` y actualización del reporte | [`66d0316`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/66d0316b4685281b33cfa7f6067b4c26828be8c4) |
-
-De esta manera, Git conserva la trazabilidad de los aportes individuales, DVC identifica la versión del dataset y MLflow centraliza parámetros, métricas, artefactos y versiones del modelo.
-
-# 7. Reporte de trabajo en equipo
-
-| Integrante | Actividades realizadas | Evidencias |
-|---|---|---|
-| Jose Arteaga | Configuró la infraestructura en AWS EC2, el acceso SSH, el servicio de MLflow y su almacenamiento remoto. Implementó el registro y versionamiento de experimentos y del modelo SciBERT Plus, gestionó los alias `candidate` y `champion`, y ejecutó la evaluación final sobre test. También documentó las métricas, artefactos y evidencias de la entrega. | Notebooks `07_scibert_plus.ipynb` y `08_evaluacion_test.ipynb`; modelo `CiteScope-SciBERT-Plus` v1; capturas de AWS/MLflow; commits `74eb914`, `442777b`, `d93ea90`, `afb5ffa`, `b108dbc` y `893d668`. |
-| Sebastian Toro | Diseñe los mockups iniciales y actualizó la vista de evaluación con los resultados reales de la Entrega 2. Desarrolló la primera versión navegable del frontend con Next.js, React y TypeScript, incorporó datos simulados para representar el futuro contrato con la API y ajustó la pantalla de evaluación para mostrar las métricas, la matriz de confusión y la comparación de modelos. También integró el trabajo de frontend en la rama `dev` y aportó a la actualización del reporte. | Carpetas `mockups/`, `frontend/` y `db/`; captura `Reportes/Entrega2/images/frontend-evaluacion.png`; commits [`1c5c9b4`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/1c5c9b4a07bf561cd6988b58b01bb1f7c616f4bc), [`452a9d8`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/452a9d851a90a46dfdd260ad7b9cb350bc9b168d), [`dd37455`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/dd37455f4dd7ac18efd09e8e7df8bffa255fc770), [`b981a2e`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/b981a2e81d1a2354485116007dec6a37737805c3), [`9fd2009`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/9fd2009a261d9205f790d6ab8c80599c91e78d6c) y [`66d0316`](https://github.com/germarodr/MAIA4401_MicroProyecto/commit/66d0316b4685281b33cfa7f6067b4c26828be8c4). |
-| Camilo Bejarano | Diseñé y construí la base de datos que va a ser alimentada y consultada por la API, según la estructura definida inicialmente, pasando de un modelo en un Notebook de pruebas a una función sin estado, creando un primer Microservicio completamente funcional a partir del mejor modelo encontrado por el equipo. Adicionalmente, hice labores de validación cruzada, contribuyendo con la revisión del trabajo de mis compañeros, minimizando errores | Carpetas `citescope-api/`; commits `ca6e103`|
-
-# 8. Conclusiones finales
-
-# Referencias
+| Modelos (preparación, clásicos y SciBERT) | `models/01_preparacion_datos.ipynb` a `models/07_scibert_plus.ipynb` |
+| Evaluación final y resultados | `models/08_evaluacion_test.ipynb`, `models/artifacts/*.csv` |
+| Modelo registrado | `CiteScope-SciBERT-Plus` v1, alias `champion` |
+| Tablero (fuente) | `frontend/`, datos en `frontend/data/`, mockups en `mockups/` |
+| Evidencias visuales | `Reportes/Entrega2/images/` (MLflow y frontend) |
