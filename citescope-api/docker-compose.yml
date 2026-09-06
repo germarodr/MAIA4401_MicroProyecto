@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-citescope}
+      POSTGRES_USER: ${POSTGRES_USER:-citescope}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-citescope}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-citescope} -d ${POSTGRES_DB:-citescope}"]
+      interval: 5s
+      retries: 5
+
+  api:
+    build: ./api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-citescope}:${POSTGRES_PASSWORD:-citescope}@db:5432/${POSTGRES_DB:-citescope}
+      MODEL_DIR: /app/model_artifacts
+      MODEL_VERSION: ${MODEL_VERSION:-SciBERT-Plus-v1-checkpoint900}
+    volumes:
+      - ./model_artifacts:/app/model_artifacts:ro
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:
