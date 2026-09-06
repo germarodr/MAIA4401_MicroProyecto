@@ -195,7 +195,33 @@ En conclusión, **SciBERT Plus versión 1** se selecciona como modelo del protot
 
 # 6. Repositorio, fuentes y soportes
 
+El código, los notebooks y las evidencias del proyecto se encuentran en el repositorio [MAIA4401_MicroProyecto](https://github.com/germarodr/MAIA4401_MicroProyecto), en la rama principal `main`, después de integrar los aportes desarrollados en las ramas de trabajo. La siguiente tabla relaciona los principales elementos que respaldan los resultados presentados.
+
+| Elemento | Ruta o evidencia |
+|---|---|
+| Dataset versionado | `Dataset/unarxive_microproyecto.jsonl.dvc` |
+| Resumen del dataset | `Dataset/unarxive_microproyecto_summary.json` |
+| Construcción del dataset | `scripts/harvest_candidates.py`, `scripts/enrich_select.py` |
+| Preparación y particiones | `models/01_preparacion_datos.ipynb` |
+| Modelos clásicos | `models/02_baseline.ipynb` a `models/04_tuning.ipynb` |
+| SciBERT | `models/05_scibert.ipynb` |
+| SciBERT Plus | `models/07_scibert_plus.ipynb` |
+| Evaluación final de test | `models/08_evaluacion_test.ipynb` |
+| Resultados reproducibles | `models/artifacts/*.csv` |
+| Modelo registrado | `CiteScope-SciBERT-Plus`, versión 1, alias `champion` |
+| Mockups | `mockups/` |
+| Evidencias de MLflow | `Reportes/Entrega2/images/` |
+| Reporte | `Reportes/Entrega2/Entrega2_CiteScope.md` |
+
+Git conserva la trazabilidad de los aportes individuales mediante commits; DVC identifica la versión del dataset y MLflow centraliza parámetros, métricas, artefactos y versiones del modelo.
+
 # 7. Reporte de trabajo en equipo
+
+| Integrante | Actividades realizadas | Evidencias |
+|---|---|---|
+| Jose Arteaga | Configuró la infraestructura en AWS EC2, el acceso SSH, el servicio de MLflow y su almacenamiento remoto. Implementó el registro y versionamiento de experimentos y del modelo SciBERT Plus, gestionó los alias `candidate` y `champion`, y ejecutó la evaluación final sobre test. También documentó las métricas, artefactos y evidencias de la entrega. | Notebooks `07_scibert_plus.ipynb` y `08_evaluacion_test.ipynb`; modelo `CiteScope-SciBERT-Plus` v1; capturas de AWS/MLflow; commits `74eb914`, `442777b`, `d93ea90`, `afb5ffa`, `b108dbc` y `893d668`. |
+
+<!-- Agregar las contribuciones verificables de los demás integrantes. -->
 
 # 8. Conclusiones finales
 
