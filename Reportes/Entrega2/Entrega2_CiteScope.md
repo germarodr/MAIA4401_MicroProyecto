@@ -180,9 +180,42 @@ El análisis por clase revela que el desempeño no es uniforme. `cs.RO`, `cs.MA`
 
 En conclusión, **SciBERT Plus versión 1** se selecciona como modelo del prototipo por ser la alternativa individual con mejor validación, contar con una evaluación de test aislada y disponer de un artefacto reproducible en MLflow bajo el alias `champion`. Antes de considerar un uso más amplio se requiere estudiar calibración de probabilidades, ampliar y actualizar los datos, revisar la taxonomía de categorías cercanas, cuantificar el costo de inferencia y evaluar el efecto del solapamiento residual de obras citadas entre particiones.
 
-# 5. Tablero desarrollado
+# 5. API, base de datos y containerización
 
-## 5.1 Funcionalidades y relación con la pregunta de negocio
+Se construyó una API simple, pero desarrollada con las mejores prácticas con el objetivo de servir el mejor modelo encontrado, asimismo, se diseñó una Base de Datos que recibe la información de las inferencias que se realicen.
+
+La API consiste en esencia de tres endpoints, un endpoint GET de salud que valida el estado de conexión de la API, un endpoint POST del recurso predictions para crear un registro por cada inferencia del modelo y almacenar metadatos, escribiendo registros en la Base de Datos, y un endpoint GET del recurso predictions que obtiene el conjunto completo de inferencias que se han hecho, haciendo una consulta en la Base de Datos.
+
+Es importante recalcar que, tanto la API como la Base de Datos se almacenaron en contenedores distintos, con el objetivo de modularizar el sistema, por otro lado, de momento tanto la API como la Base de Datos se están ejecutando en una máquina local, el objetivo es luego migrar estos dos recursos a una instancia de cómputo EC2, la ,misma donde se ha trabajado el resto del proyecto.
+
+<figure>
+  <img src="images/FastAPI Swagger y Endpoints.png" alt="Swagger de FastAPI y Endpoints desarrollados">
+  <figcaption><strong>Figura 6.</strong> Vista del Swagger de FastAPI y de los endpoints desarrollados.</figcaption>
+</figure>
+
+<figure>
+  <img src="images/EP GET health.png" alt="Vista del Endpoint GET /health en el Swagger de FastAPI">
+  <figcaption><strong>Figura 7.</strong> Vista del Endpoint health en el Swagger de FastAPI, denotando que la API está activa.</figcaption>
+</figure>
+
+<figure>
+  <img src="images/EP POST predictions.png" alt="Vista del Endpoint POST /predictions en el Swagger de FastAPI">
+  <figcaption><strong>Figura 8.</strong> Vista del Endpoint POST /predictions en el Swagger de FastAPI, con un intento de predicción y su correcto funcionamiento.</figcaption>
+</figure>
+
+<figure>
+  <img src="images/EP GET predictions.png" alt="Vista del Endpoint GET /predictions en el Swagger de FastAPI">
+  <figcaption><strong>Figura 9.</strong> Vista del Endpoint GET /predictions en el Swagger de FastAPI, mostrando el único intento de predicción y su correcto funcionamiento.</figcaption>
+</figure>
+
+<figure>
+  <img src="images/BBDD predictions.png" alt="Vista de consulta a la BBDD que almacena las inferencias y sus metadatos">
+  <figcaption><strong>Figura 10.</strong> Vista de consulta y correcto funcionamiento de la BBDD PostgreSQL que almacena las inferencias y sus metadatos.</figcaption>
+</figure>
+
+# 6. Tablero desarrollado
+
+## 6.1 Funcionalidades y relación con la pregunta de negocio
 
 Se desarrolló un prototipo web navegable de **CiteScope** para llevar el resultado del modelo a una interfaz comprensible para el usuario. El tablero organiza el flujo en cinco vistas:
 
@@ -196,7 +229,7 @@ Se desarrolló un prototipo web navegable de **CiteScope** para llevar el result
 
 La vista de evaluación fue actualizada frente al mockup inicial para mostrar porcentajes consistentes y los resultados reales de SciBERT Plus sobre el test reservado. La matriz conserva valores absolutos porque representan cantidades de observaciones y permiten revisar directamente los aciertos y las confusiones entre clases.
 
-## 5.2 Integración con el modelo
+## 6.2 Integración con el modelo
 
 El frontend fue desarrollado con **Next.js 16**, **React 19** y **TypeScript**. La interfaz utiliza **Tailwind CSS 4**, estilos mediante **CSS Modules**, componentes de iconografía de **Lucide React** y componentes gráficos preparados con **Recharts**. El diseño es adaptable a dispositivos móviles y separa la presentación de la fuente de datos mediante una capa ubicada en `src/lib/mock-data.ts`.
 
@@ -204,7 +237,7 @@ En el estado actual, la vista de evaluación consume las predicciones reales del
 
 La siguiente etapa consiste en reemplazar la capa de datos simulados por un cliente HTTP conectado a la API del proyecto. Esta API deberá cargar el modelo `models:/CiteScope-SciBERT-Plus@champion`, recibir los tres campos de entrada, ejecutar la inferencia y devolver la categoría, confianza y probabilidades. También deberá exponer el historial, el resumen de monitoreo y la evaluación para que todas las vistas sean funcionales con información persistida y actualizada.
 
-## 5.3 Evidencias del tablero
+## 6.3 Evidencias del tablero
 
 Para mostrar el avance de manera verificable se combinan tres evidencias complementarias: el mockup actualizado, la implementación navegable y el código que define su contrato de datos.
 
@@ -218,11 +251,11 @@ Para mostrar el avance de manera verificable se combinan tres evidencias complem
 
 <figure>
   <img src="images/frontend-evaluacion.png" alt="Vista de evaluación implementada en el frontend navegable de CiteScope">
-  <figcaption><strong>Figura 6.</strong> Vista de evaluación implementada y ejecutada localmente. Presenta las métricas reales de SciBERT Plus, la matriz de confusión, el F1 por subárea y la comparación de modelos.</figcaption>
+  <figcaption><strong>Figura 11.</strong> Vista de evaluación implementada y ejecutada localmente. Presenta las métricas reales de SciBERT Plus, la matriz de confusión, el F1 por subárea y la comparación de modelos.</figcaption>
 </figure>
 
 
-# 6. Reporte de trabajo en equipo
+# 7. Reporte de trabajo en equipo
 
 <table style="width:100%; table-layout:fixed; font-size:8.4pt">
   <colgroup>
@@ -237,7 +270,7 @@ Para mostrar el avance de manera verificable se combinan tres evidencias complem
     <tr>
       <td>Camilo Bejarano</td>
       <td>Diseñó y construyó la base de datos y la función sin estado que constituye la base del microservicio de inferencia (modelo <code>champion</code>), lista para integrarse con el frontend. Realizó validación cruzada del equipo.</td>
-      <td><code>citescope-api/</code>; commit <code>ca6e103</code>.</td>
+      <td><code>citescope-api/</code>; commit <code>ca6e103</code>, <code>1dedec7</code>.</td>
     </tr>
     <tr>
       <td>German Rodriguez</td>
@@ -257,7 +290,7 @@ Para mostrar el avance de manera verificable se combinan tres evidencias complem
   </tbody>
 </table>
 
-# 7. Conclusiones finales
+# 8. Conclusiones finales
 
 Esta entrega responde afirmativamente la pregunta de negocio: es posible predecir la subárea de Computer Science del artículo citante a partir del contexto de la cita y de los metadatos del citado. El modelo seleccionado alcanza 0,6750 de accuracy y 0,6716 de Macro F1 en un test evaluado una sola vez, muy por encima del azar (12,5%). Se cumplieron las hipótesis de la Entrega 1: el enriquecimiento con título y resumen superó de forma consistente al baseline, la meta de Macro F1 ≥ 0,70 se alcanzó en validación (0,6958) y quedó apenas por debajo en test, y las confusiones anticipadas entre `cs.AI`, `cs.LG` y `cs.NE` se confirmaron en la matriz de confusión.
 
