@@ -40,15 +40,3 @@ Thumbs.db
 .vscode/
 .idea/
 mockups/EVALUACION-MODELO_V2.prompt.md
-
-# Exportaciones derivadas del reporte (mantener solo el .md y el .css fuente)
-Reportes/**/*.pdf
-Reportes/**/*.html
-Reportes/**/*.jpeg
-Reportes/**/*.jpg
-# Nota: NO ignorar Reportes/**/images/** porque el .md las necesita
-Reportes/*/Entrega2_CiteScope.png
-
-# Artefactos de tokenizer/vocab del modelo servido (grandes; preferible DVC/S3)
-citescope-api/model_artifacts/tokenizer.json
-citescope-api/model_artifacts/vocab.txt
