@@ -40,3 +40,9 @@ Thumbs.db
 .vscode/
 .idea/
 mockups/EVALUACION-MODELO_V2.prompt.md
+
+# Exportaciones derivadas del reporte (mantener .md, .css e imágenes de contenido en images/)
+Reportes/**/*_CiteScope.pdf
+Reportes/**/*_CiteScope.html
+Reportes/**/*_CiteScope.jpeg
+Reportes/**/*_CiteScope.png
