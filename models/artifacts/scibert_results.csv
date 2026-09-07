@@ -1,0 +1,2 @@
+modelo,input,macro_f1_val,accuracy_val,delta_vs_clasico,model_name,max_len,max_epochs,early_stopping,lr,seed
+scibert,text_enriched,0.6836,0.68,0.0559,allenai/scibert_scivocab_uncased,512,5,True,2e-05,42

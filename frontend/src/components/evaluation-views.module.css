@@ -1,0 +1,19 @@
+.matrixLayout { display: flex; gap: 8px; align-items: center; min-width: 0; }
+.realAxis { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; font-weight: 700; color: var(--navy); }
+.matrixScroll { min-width: 0; flex: 1; overflow-x: auto; border-radius: 4px; }
+.matrixScroll:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.matrix { width: 100%; min-width: 500px; border-collapse: collapse; table-layout: fixed; font-size: 12px; }
+.matrix caption { caption-side: top; text-align: center; color: var(--navy); font-weight: 700; padding: 3px 0 14px; }
+.matrix th { color: var(--navy); font-weight: 700; padding: 12px 2px; text-align: center; }
+.matrix td { text-align: center; height: 48px; border: 1px solid #e0e9f5; font-variant-numeric: tabular-nums; }
+.matrix thead td { border: none; height: auto; }
+.matrix tbody th { text-align: left; }
+.chart { font-size: 12px; font-variant-numeric: tabular-nums; }
+.bars { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
+.barRow { display: grid; grid-template-columns: 52px minmax(0, 1fr) 62px; gap: 10px; align-items: center; line-height: 1.3; }
+.barRow strong { color: var(--navy); }
+.score { font-weight: 700; color: var(--navy); text-align: right; white-space: nowrap; }
+.track { display: block; height: 9px; background: #f2f6fc; border-radius: 99px; overflow: hidden; }
+.track > span { display: block; height: 100%; background: linear-gradient(90deg, #0769e8, #0057e8); border-radius: inherit; }
+.axis { display: flex; justify-content: space-between; margin: 14px 72px 0 62px; border-top: 1px solid #cbd8e8; padding-top: 6px; color: var(--muted); }
+.axisCaption { text-align: center; color: var(--muted); margin: 6px 0 0; font-size: 11px; }

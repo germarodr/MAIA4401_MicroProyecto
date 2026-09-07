@@ -1,0 +1,16 @@
+{
+  "period":{"from":"2026-08-14","to":"2026-08-20"},
+  "kpis":{"requests":1248,"averageConfidence":0.78,"p95LatencyMs":240,"errorRate":0.012},
+  "dailyVolume":[
+    {"date":"14 ago.","requests":88},{"date":"15 ago.","requests":104},
+    {"date":"16 ago.","requests":97},{"date":"17 ago.","requests":126},
+    {"date":"18 ago.","requests":143},{"date":"19 ago.","requests":157},
+    {"date":"20 ago.","requests":184}
+  ],
+  "categoryDistribution":[
+    {"category":"cs.CV","count":312},{"category":"cs.LG","count":248},
+    {"category":"cs.AI","count":162},{"category":"cs.CL","count":138},
+    {"category":"cs.RO","count":124},{"category":"cs.NE","count":102},
+    {"category":"cs.IR","count":86},{"category":"cs.MA","count":76}
+  ]
+}

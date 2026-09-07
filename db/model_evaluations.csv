@@ -1,0 +1,2 @@
+evaluation_id,model_version,dataset_name,evaluated_at,record_count,accuracy,macro_f1,micro_f1
+eval_001,v1.0.0,test_stratified_v1,2026-08-20T09:00:00-05:00,800,0.862,0.840,0.860

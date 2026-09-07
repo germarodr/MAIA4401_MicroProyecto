@@ -23,9 +23,10 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CANDIDATES = ROOT / "data" / "interim" / "unarxive_candidates.jsonl"
-OUT_PATH = ROOT / "data" / "processed" / "unarxive_microproyecto.jsonl"
-SUMMARY_PATH = ROOT / "data" / "processed" / "unarxive_microproyecto_summary.json"
+DATASET_DIR = ROOT / "Dataset"
+CANDIDATES = DATASET_DIR / "interim" / "unarxive_candidates.jsonl"
+OUT_PATH = DATASET_DIR / "unarxive_microproyecto.jsonl"
+SUMMARY_PATH = DATASET_DIR / "unarxive_microproyecto_summary.json"
 
 OPENALEX = "https://api.openalex.org/works"
 MAILTO = "microproyecto@example.org"

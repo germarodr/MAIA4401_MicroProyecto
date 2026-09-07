@@ -1,0 +1,48 @@
+.page { padding-top: 30px; }
+.heading { display: flex; justify-content: space-between; gap: 24px; align-items: center; margin-bottom: 22px; flex-wrap: wrap; }
+.heading :global(.page-heading) { margin: 0; }
+.heading :global(.page-heading h1) { font-size: 30px; }
+.context { display: flex; flex-wrap: wrap; gap: 12px; }
+.contextCard { display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); background: white; border-radius: 10px; padding: 14px 18px; color: var(--navy); }
+.contextCard svg { flex-shrink: 0; }
+.contextCard strong { font-size: 14px; display: block; }
+.contextCard small { display: block; color: var(--muted); font-size: 12px; margin: 3px 0; }
+.badge { background: #fff0bc; color: #654900; border-radius: 5px; padding: 3px 7px; font-size: 11px; font-weight: 700; }
+.page :global(.kpi-card) { min-height: 120px; }
+.page :global(.kpi-card small) { color: var(--muted); font-size: 12px; display: block; }
+.page :global(.kpi-card strong) { font-variant-numeric: tabular-nums; }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.grid h2 { font-size: 16px; font-weight: 700; margin: 0 0 18px; color: var(--navy); }
+.matrixPanel, .chartPanel, .comparison { padding: 20px; min-width: 0; }
+.matrixPanel { display: flex; flex-direction: column; }
+.side { display: grid; gap: 16px; min-width: 0; }
+.caption { color: var(--muted); font-size: 12px; line-height: 1.6; margin: 12px 0 0; }
+.insight { display: flex; gap: 12px; align-items: flex-start; color: var(--navy); background: #f4f8ff; border: 1px solid #dce9ff; border-radius: 8px; padding: 16px; margin-top: auto; font-size: 14px; }
+.insight svg { flex-shrink: 0; color: var(--blue); }
+.insight p { margin: 6px 0 0; }
+.matrixPanel > .caption { margin-bottom: 24px; }
+.comparisonTable { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+.comparisonTable th, .comparisonTable td { padding: 6px 10px; border-bottom: 1px solid #e7eef7; text-align: right; white-space: nowrap; }
+.comparisonTable th:first-child { text-align: left; }
+.comparisonTable thead th { color: var(--navy); font-weight: 700; }
+.comparisonTable tbody th { font-weight: 400; }
+.comparisonTable tbody .selected th, .comparisonTable tbody .selected td { background: #eaf3ff; color: #0857bf; font-weight: 700; }
+.comparisonTable small { font-size: 10px; display: inline-block; margin-left: 8px; }
+.notes { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+.note { display: flex; align-items: center; gap: 12px; background: #f3f8ff; border: 1px solid #d7e7fe; border-radius: 8px; color: var(--navy); padding: 14px 16px; font-size: 12px; line-height: 1.6; }
+.note p { margin: 0; }
+.note svg { flex-shrink: 0; color: var(--blue); }
+.warning { background: #fffaf0; border-color: #eddfbe; }
+.warning svg { color: #9b6b13; }
+.source { color: var(--muted); font-size: 12px; margin: 14px 0 0; }
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: 1fr; }
+  .notes { grid-template-columns: 1fr; }
+  .matrixPanel > .caption { margin-bottom: 20px; }
+}
+@media (max-width: 720px) {
+  .heading :global(.page-heading h1) { font-size: 27px; }
+  .context { width: 100%; flex-direction: column; }
+  .contextCard { padding: 12px; flex-wrap: wrap; }
+  .matrixPanel, .chartPanel, .comparison { padding: 16px; }
+}

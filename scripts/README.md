@@ -35,16 +35,17 @@ Pasa la ruta del directorio resultante a `--corpus-dir` en la etapa 1.
 
 ## Estructura de datos esperada
 
-Ambos scripts asumen que la carpeta padre contiene un directorio `data/`:
+Ambos scripts usan el directorio `Dataset/` del proyecto:
 
 ```text
 MAIA4401_MicroProyecto/
 ├── scripts/
 │   ├── harvest_candidates.py
 │   └── enrich_select.py
-└── data/
-    ├── interim/     # unarxive_candidates.jsonl   (salida de la etapa 1)
-    └── processed/   # unarxive_microproyecto.jsonl (salida de la etapa 2+3)
+└── Dataset/
+    ├── interim/                         # candidatos de la etapa 1
+    ├── unarxive_microproyecto.jsonl     # dataset final de las etapas 2+3
+    └── unarxive_microproyecto_summary.json
 ```
 
 ## Uso
@@ -53,7 +54,7 @@ MAIA4401_MicroProyecto/
 
 Recorre el corpus, filtra `discipline == "Computer Science"`, extrae contextos de
 cita por subcategoría `cs.*` con muestreo distribuido por secciones y guarda un
-excedente por clase en `data/interim/unarxive_candidates.jsonl`.
+excedente por clase en `Dataset/interim/unarxive_candidates.jsonl`.
 
 ```bash
 python scripts/harvest_candidates.py \
@@ -65,7 +66,8 @@ python scripts/harvest_candidates.py \
 
 Resuelve el título y abstract del artículo citado vía OpenAlex, deriva los campos
 a nivel de registro y selecciona 500 por clase con preferencia a los que tienen
-abstract. Escribe `data/processed/unarxive_microproyecto.jsonl` y su resumen.
+abstract. Escribe `Dataset/unarxive_microproyecto.jsonl` y su resumen en
+`Dataset/unarxive_microproyecto_summary.json`.
 
 ```bash
 python scripts/enrich_select.py --per-class 500

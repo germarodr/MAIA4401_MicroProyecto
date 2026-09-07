@@ -14,7 +14,7 @@ __pycache__/
 .env.*
 
 # Datos grandes (versionar con DVC, no con Git)
-data/raw/
+Dataset/raw/
 *.jsonl
 *.tar.xz
 *.tar.gz
@@ -25,6 +25,12 @@ data/raw/
 *.joblib
 *.pt
 *.bin
+*.safetensors
+models/artifacts/*_ckpt/
+
+# MLflow local
+mlruns/
+mlflow.db
 
 # Sistema
 .DS_Store
@@ -33,3 +39,4 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+mockups/EVALUACION-MODELO_V2.prompt.md

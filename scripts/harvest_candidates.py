@@ -31,7 +31,7 @@ from pathlib import Path
 TARGET_SUBCATS = ["cs.LG", "cs.CV", "cs.CL", "cs.AI", "cs.NE", "cs.RO", "cs.IR", "cs.MA"]
 
 ROOT = Path(__file__).resolve().parents[1]
-INTERIM_DIR = ROOT / "data" / "interim"
+INTERIM_DIR = ROOT / "Dataset" / "interim"
 
 CITE_RE = re.compile(r"\{\{cite:([0-9a-f]+)\}\}")
 OTHER_MARKUP_RE = re.compile(r"\{\{(formula|figure|table):[^}]+\}\}")

@@ -1,0 +1,4 @@
+run_name,learning_rate,seed,macro_f1_val,accuracy_val,best_checkpoint,best_metric,epochs_completed,train_runtime_seconds
+best_lr_1e-05_seed_42,1e-05,42,0.6958313167767745,0.695,D:\Documents\4. Courses\1. Master AI\1. Semesters\4 Semester\1 Bimestre\Grado_Microproyecto\models\artifacts\scibert07_best_lr_1e-05_seed_42_ckpt\checkpoint-900,0.6958313167767745,5.0,525.8651
+best_lr_1e-05_seed_17,1e-05,17,0.682982006370642,0.68625,D:\Documents\4. Courses\1. Master AI\1. Semesters\4 Semester\1 Bimestre\Grado_Microproyecto\models\artifacts\scibert07_best_lr_1e-05_seed_17_ckpt\checkpoint-900,0.682982006370642,5.0,521.9703
+best_lr_1e-05_seed_73,1e-05,73,0.6821600337030376,0.6825,D:\Documents\4. Courses\1. Master AI\1. Semesters\4 Semester\1 Bimestre\Grado_Microproyecto\models\artifacts\scibert07_best_lr_1e-05_seed_73_ckpt\checkpoint-600,0.6821600337030376,4.0,431.5493
