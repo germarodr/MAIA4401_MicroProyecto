@@ -19,6 +19,47 @@ npm run dev
 
 Abra `http://localhost:3000`.
 
+## Ejecución con Docker Compose
+
+Desde la raíz del repositorio:
+
+```bash
+docker compose -f citescope-api/docker-compose.yml up -d --build
+```
+
+Esto levanta PostgreSQL, FastAPI y el frontend de producción. El frontend queda
+en `http://localhost:3000` y la documentación de FastAPI en
+`http://localhost:8000/docs`. En `citescope-api/model_artifacts` deben estar
+`model.safetensors` descargado con DVC, la configuración y el tokenizador.
+La API carga los archivos directamente desde esa carpeta montada en solo lectura;
+el frontend espera que la API esté saludable. La descarga con DVC se realiza
+antes de ejecutar Compose.
+
+Dentro de Docker, `CITESCOPE_API_URL=http://api:8000` apunta al servicio `api`
+en la red de Compose. El navegador sigue usando `/api` en el mismo origen del
+frontend. `localhost` dentro de un contenedor corresponde a ese contenedor.
+
+Detenga `npm run dev` si ocupa el puerto 3000. Para usar otro puerto, configure
+`FRONTEND_PORT=3001` en `citescope-api/.env` antes de levantar Compose.
+
+Para reconstruir el frontend después de modificar su código:
+
+```bash
+docker compose -f citescope-api/docker-compose.yml up -d --build frontend
+```
+
+Para consultar el estado y los registros:
+
+```bash
+docker compose -f citescope-api/docker-compose.yml ps
+docker compose -f citescope-api/docker-compose.yml logs --tail 50 frontend
+```
+
+La imagen se construye con `npm ci` y `npm run build`; requiere acceso a npm y
+Google Fonts durante la construcción. La imagen final usa la salida `standalone`
+de Next.js y se ejecuta como usuario sin privilegios. Los archivos `.env` locales
+no se copian a la imagen; Compose proporciona la configuración al arrancar.
+
 Para validar la compilación de producción:
 
 ```bash
