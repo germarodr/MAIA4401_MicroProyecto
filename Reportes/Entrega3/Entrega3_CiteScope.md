@@ -101,9 +101,9 @@ La solución separa responsabilidades en componentes reproducibles:
 
 | Componente   | Tecnología                       | Responsabilidad                                                                                   |
 | ------------ | --------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Tablero      | Next.js 16, React 19 y TypeScript | Recibir entradas y presentar predicción, historial, monitoreo y evaluación.                     |
+| Tablero      | Next.js 16, React 19 y TypeScript | Interfaz de interacción con el usuario, recibe las entradas y presentar predicción, historial, monitoreo y evaluación.                     |
 | API          | FastAPI, PyTorch y Transformers   | Validar el contrato, preparar los segmentos, ejecutar SciBERT Plus y devolver probabilidades.     |
-| Persistencia | PostgreSQL 16                     | Guardar identificador, fecha, versión, categoría, confianza, probabilidades, latencia y estado. |
+| Persistencia | PostgreSQL 16                     | Guardar los logs de ejecución de los modelos, con datos como identificador, fecha, versión, categoría, confianza, probabilidades, latencia y estado. |
 | Modelo       | SciBERT Plus v1                   | Clasificar la cita entre ocho subáreas.                                                          |
 | Artefactos   | DVC y Amazon S3                   | Mantener la copia canónica y trazable de `model.safetensors` sin almacenarla directamente en Git. |
 | Inicialización | `model-init` y `gdown`          | Comprobar si el checkpoint existe y, en una instalación limpia, descargar automáticamente un espejo operativo. |
@@ -126,22 +126,22 @@ El contrato utiliza ocho códigos arXiv y conserva valores nulos cuando una pred
 
 | Vista                                   | Funcionalidad final                                                                                                            |
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Inicio (`/`)                          | Explica CiteScope y conduce a clasificación, monitoreo y evaluación.                                                         |
-| Clasificar (`/clasificar`)            | Recibe contexto obligatorio, título y abstract opcionales; llama a la API y presenta categoría, confianza y probabilidades.  |
-| Monitoreo (`/monitoreo`)              | Calcula peticiones, confianza promedio, latencia p95 y tasa de error; permite filtrar el historial.                            |
-| Detalle (`/monitoreo/[predictionId]`) | Presenta trazabilidad, entrada disponible, versión, latencia y probabilidades de una inferencia.                              |
-| Evaluación (`/evaluacion`)           | Muestra resultados estáticos y verificables del test: métricas globales, F1 por clase, matriz y comparación de validación. |
+| Inicio (`/`)                          | Página de bienvenida al proyecto CiteScope, ceunta con los links  a las opciones de clasificación, monitoreo y evaluación.                                                         |
+| Clasificar (`/clasificar`)            | Página que permite realizar las inferencias, el usaurio ingresa el contexto que es una campo obligatorio, el título y abstract son opcionales; llama a la API y presenta el resultado de la inferencia en las 9 categorías, confianza y probabilidades.  |
+| Monitoreo (`/monitoreo`)              | Página que permite visualizar el contexto global de uso del modelo, al presentar las peticiones, confianza promedio, latencia y tasa de error; Adiconalmente permite visualizar el listado de ejecuciones, filtrar e ir al detalle de cada ejecuión                            |
+| Detalle (`/monitoreo/[predictionId]`) | Página que presenta la trazabilidad, entrada disponible, versión, latencia y probabilidades de una inferencia.                              |
+| Evaluación (`/evaluacion`)           | Página pagina que muestra resultados estáticos y verificables del test: métricas globales, F1 por clase, matriz y comparación de validación. |
 
-La integración final elimina respuestas ficticias en clasificación y monitoreo: si FastAPI no está disponible, el frontend informa el error y no fabrica una predicción. La vista de evaluación permanece estática porque comunica el resultado cerrado del test, no el comportamiento de solicitudes operativas.
+La integración final elimina respuestas ficticias en clasificación y monitoreo ya que ya ceunta con integración con el API.
 
 <figure>
   <img src="images/05-clasificacion-desplegada.png" alt="Clasificación real realizada desde el frontend desplegado">
-  <figcaption><strong>Figura 5.</strong> Inferencia desde la URL pública: los tres campos de entrada producen la categoría `cs.IR`, 72% de confianza y la distribución completa de probabilidades.</figcaption>
+  <figcaption><strong>Figura 5.</strong> Se muestra una inferencia desde la URL pública: los tres campos de entrada producen la categoría `cs.IR`, 72% de confianza y la distribución completa de probabilidades.</figcaption>
 </figure>
 
 <figure>
   <img src="images/06-monitoreo-desplegado.png" alt="Monitoreo de predicciones persistidas por la API">
-  <figcaption><strong>Figura 6.</strong> Monitoreo operativo con ocho peticiones persistidas, indicadores de confianza, latencia y error, distribución por categoría e historial asociado a la versión desplegada.</figcaption>
+  <figcaption><strong>Figura 6.</strong> Se observa el monitoreo operativo con ocho peticiones persistidas, indicadores de confianza, latencia y error, distribución por categoría e historial asociado a la versión desplegada.</figcaption>
 </figure>
 
 # 4. Empaquetamiento y despliegue en la nube
@@ -197,10 +197,8 @@ El código se encuentra en [MAIA4401_MicroProyecto](https://github.com/germarodr
 | Frontend                           | `frontend/`                                                                                                   |
 | Manual de usuario                  | [Manual de usuario de CiteScope](https://github.com/germarodr/MAIA4401_MicroProyecto/blob/dev/Reportes/Entrega%20Final/Manual_Usuario_CiteScope.pdf) |
 | Manual de instalación             | [Manual de instalación de CiteScope](https://github.com/germarodr/MAIA4401_MicroProyecto/blob/dev/Reportes/Entrega%20Final/Manual_Instalaci%C3%B3n_CiteScope.html) |
-| Video final (máx. 10 minutos)     | [Video de presentación y demostración de CiteScope](https://drive.google.com/file/d/1FKqN6_wKn3LPOlDYMRLuO5GuJjNlnPxz/view) |
-| Retroalimentación a cuatro grupos | **[PENDIENTE: insertar enlaces o evidencia del Padlet]**                                                  |
+| Video Presentación del proyecto     | [Video de presentación y demostración de CiteScope](https://drive.google.com/file/d/1FKqN6_wKn3LPOlDYMRLuO5GuJjNlnPxz/view) |
 
-Al momento de entregar se debe detener, pero no terminar, la instancia y los servicios empleados, de acuerdo con la rúbrica, para permitir su reactivación si son solicitados durante la evaluación.
 
 # 7. Reporte de trabajo en equipo
 
@@ -209,7 +207,7 @@ Al momento de entregar se debe detener, pero no terminar, la instancia y los ser
 | Camilo Bejarano  | Diseñó la base de datos y desarrolló la API de inferencia, sus contratos, persistencia y endpoints; incorporó la descarga automatizada del modelo y el manual de instalación. | `citescope-api/api/`, `db/`, `docker-compose.yml`, manual de instalación; commits `ca6e103`, `1dedec7`, `3b9fabd`, `8a5db06`, `74674b7`. |
 | German Rodriguez | Construyó y revisó preparación de datos, baselines y experimentos; consolidó documentación, realizó revisión cruzada e integró el manual de usuario.                    | `models/`, `Reportes/`; commits `4a796d3`, `b005fa8`, `9703984`, `d3f818b`, `31e8314`.                                                        |
 | Jose Arteaga     | Configuró AWS EC2, SSH, MLflow y S3; desarrolló SciBERT Plus, registró/evaluó el modelo, versionó sus pesos con DVC y desplegó el sistema completo con Docker en EC2. | `models/07_scibert_plus.ipynb`, `08_evaluacion_test.ipynb`, evidencias AWS; commits `74eb914`, `442777b`, `d93ea90`, `afb5ffa`, `e07bad2`. |
-| Sebastian Toro   | Diseñó mockups y desarrolló el frontend; conectó clasificación y monitoreo con la API e incorporó frontend, API y base de datos al despliegue Docker Compose.         | `mockups/`, `frontend/`, `citescope-api/docker-compose.yml`; commits `452a9d8`, `b981a2e`, `9036059`, `d1b8510`.                           |
+| Sebastian Toro   | Diseñe arqutectura global, mockups y desarrolle el frontend; conecte clasificación y monitoreo con la API e incorporó frontend, API y base de datos al despliegue Docker Compose. valide y ajuste los manuales, sinocronize el equipo      | `mockups/`, `frontend/`, `citescope-api/docker-compose.yml`; commits `452a9d8`, `b981a2e`, `9036059`, `d1b8510`.                           |
 
 # Referencias
 
@@ -219,3 +217,6 @@ Al momento de entregar se debe detener, pero no terminar, la instancia y los ser
 - MLflow. https://mlflow.org/
 - DVC — Data Version Control. https://dvc.org/
 - Docker. https://docs.docker.com/
+------------------------------------------------------------------------ 
+Universidad de los andes 2026
+-----------------------------------------------------------------------
