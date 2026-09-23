@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Manual de usuario | CiteScope</title>
+  <link rel="stylesheet" href="manualUsario.css">
+</head>
+
+<body><a class="skip" href="#contenido">Saltar al contenido</a>
+  <header><a class="brand" href="#">CITE<span>SCOPE</span><small>Clasificación de citas científicas</small></a><span
+      class="tag">Documentación · Entrega final</span></header>
+  <div class="hero">
+    <div class="eyebrow">Guía de la aplicación</div>
+    <h1>Manual de usuario</h1>
+    <p class="lead">De una cita académica a una predicción interpretable. Aprenda a clasificar, consultar el historial y
+      explorar la evaluación del modelo.</p>
+    <!---div class="hero-actions"><a class="button primary" href="#3-clasificar-una-cita">Comenzar a clasificar</a>
+      <button class="button" onclick="printManual(this)">Imprimir / Guardar PDF</button>
+      <a class="button" href="manualUsario.md">Fuente Markdown</a>
+    </div!-->
+  </div>
+  <div class="layout">
+    <nav class="sidebar" aria-label="Contenido del manual"><strong>En esta guía</strong>
+      <div class="toc">
+        <ul>
+          <li><a href="#contenido">Contenido</a></li>
+          <li><a href="#1-presentacion">1. Presentación</a></li>
+          <li><a href="#2-acceso-y-navegacion">2. Acceso y navegación</a></li>
+          <li><a href="#3-clasificar-una-cita">3. Clasificar una cita</a></li>
+          <li><a href="#4-consultar-el-monitoreo">4. Consultar el monitoreo</a></li>
+          <li><a href="#5-revisar-el-detalle-de-una-peticion">5. Revisar el detalle de una petición</a></li>
+          <li><a href="#6-consultar-la-evaluacion-del-modelo">6. Consultar la evaluación del modelo</a></li>
+          <li><a href="#7-mensajes-y-solucion-de-problemas">7. Mensajes y solución de problemas</a></li>
+          <li><a href="#8-recorrido-de-comprobacion">8. Recorrido de comprobación</a></li>
+        </ul>
+      </div>
+    </nav>
+    <main id="contenido">
+      <section>
+        <h2 id="contenido">Contenido</h2>
+        <ol>
+          <li><a href="#1-presentacion">Presentación</a></li>
+          <li><a href="#2-acceso-y-navegacion">Acceso y navegación</a></li>
+          <li><a href="#3-clasificar-una-cita">Clasificar una cita</a></li>
+          <li><a href="#4-consultar-el-monitoreo">Consultar el monitoreo</a></li>
+          <li><a href="#5-revisar-el-detalle-de-una-peticion">Detalle de una petición</a></li>
+          <li><a href="#6-consultar-la-evaluacion-del-modelo">Evaluación del modelo</a></li>
+          <li><a href="#7-mensajes-y-solucion-de-problemas">Mensajes y solución de problemas</a></li>
+          <li><a href="#8-recorrido-de-comprobacion">Recorrido de comprobación</a></li>
+        </ol>
+      </section>
+      <section>
+        <h2 id="1-presentacion">1. Presentación</h2>
+        <p>CiteScope permite clasificar una cita académica en una de ocho subáreas de Computer Science. Para realizar la
+          clasificación, utiliza el contexto donde aparece la cita y, opcionalmente, el título y el resumen del artículo
+          citado.</p>
+        <p>Este manual explica cómo ingresar información, interpretar una predicción, consultar el historial y revisar
+          la evaluación del modelo. Está dirigido a las personas que utilizan la interfaz web; la instalación y el
+          despliegue se describen en el manual de instalación.</p>
+        <p>La organización de las pantallas toma como referencia los mockups del proyecto. Los procedimientos
+          corresponden a las funciones implementadas actualmente en el frontend.</p>
+      </section>
+      <section>
+        <h2 id="2-acceso-y-navegacion">2. Acceso y navegación</h2>
+        <p>Con la aplicación en funcionamiento, abra en el navegador la dirección indicada por el responsable del
+          despliegue. En la instalación local, la dirección predeterminada es <strong>http://localhost:3000</strong>.
+        </p>
+        <p>Para clasificar citas y consultar el historial, el servicio de clasificación y el modelo deben estar
+          disponibles. La versión actual no presenta un formulario de inicio de sesión.</p>
+        <p>La barra superior permite acceder a las siguientes secciones:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Opción</th>
+              <th>Uso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Inicio</strong></td>
+              <td>Consultar la presentación del proyecto y sus accesos principales.</td>
+            </tr>
+            <tr>
+              <td><strong>Clasificar</strong></td>
+              <td>Introducir una cita y obtener la categoría predicha.</td>
+            </tr>
+            <tr>
+              <td><strong>Monitoreo</strong></td>
+              <td>Consultar indicadores, gráficas e historial de peticiones.</td>
+            </tr>
+            <tr>
+              <td><strong>Evaluación del modelo</strong></td>
+              <td>Revisar los resultados de evaluación del modelo.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>El detalle de una petición se abre desde el resultado de clasificación o desde un ID del historial.</p>
+        <h3 id="21-pantalla-de-inicio">2.1. Pantalla de inicio</h3>
+        <p>La pantalla de inicio presenta el propósito de CiteScope y sus características. Seleccione <strong>Clasificar
+            una cita</strong> para comenzar o <strong>Explorar el modelo</strong> para consultar su evaluación. También
+          puede utilizar la barra superior para cambiar de sección.</p>
+        <p>La opción <strong>Inicio</strong> aparece resaltada en la barra superior para indicar la sección actual.
+          Debajo de los accesos principales se presentan tres características:</p>
+        <ul>
+          <li><strong>Contexto enriquecido:</strong> uso del contexto de la cita junto con el título y el abstract del
+            artículo citado.</li>
+          <li><strong>Resultados interpretables:</strong> presentación de la subárea predicha y de las probabilidades
+            entre las ocho clases.</li>
+          <li><strong>Monitoreo continuo:</strong> consulta de la actividad y de los resultados de las solicitudes.</li>
+        </ul>
+        <p>El pie de página identifica al Grupo 8 y presenta los enlaces <strong>Acerca del proyecto</strong>,
+          <strong>Metodología</strong> y <strong>GitHub</strong>. El acceso <strong>Metodología</strong> lleva a la
+          evaluación del modelo.
+        </p>
+        <figure><a href="images/manual-usuario/01-inicio.png" target="_blank" rel="noopener"><img
+              alt="Figura 1. Pantalla de inicio de CiteScope." src="images/manual-usuario/01-inicio.png"
+              loading="eager"></a>
+          <figcaption>Figura 1. Pantalla de inicio de CiteScope con navegación, accesos a clasificación y evaluación,
+            características principales y créditos del proyecto.</figcaption>
+        </figure>
+      </section>
+      <section>
+        <h2 id="3-clasificar-una-cita">3. Clasificar una cita</h2>
+        <h3 id="31-preparar-la-informacion">3.1. Preparar la información</h3>
+        <p>Seleccione <strong>Clasificar</strong> en la barra superior. La pantalla contiene el formulario
+          <strong>Clasificar una cita</strong> y el panel <strong>Resultado</strong>.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Campo</th>
+              <th>Obligatorio</th>
+              <th>Qué debe ingresar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Contexto de la cita</strong></td>
+              <td>Sí</td>
+              <td>Fragmento del documento que contiene la cita. Marque la cita que desea analizar con
+                <code>[CIT]</code>, como indica el formulario.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Título del artículo citado</strong></td>
+              <td>No</td>
+              <td>Título del trabajo al que se refiere la cita.</td>
+            </tr>
+            <tr>
+              <td><strong>Abstract del artículo citado</strong></td>
+              <td>No</td>
+              <td>Resumen del trabajo citado.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>El contexto pertenece al documento que realiza la cita. El título y el abstract corresponden al artículo
+          citado. Si no dispone de estos dos últimos datos, puede dejar sus campos vacíos.</p>
+        <figure><a href="images/manual-usuario/02-formulario.png" target="_blank" rel="noopener"><img
+              alt="Figura 2. Formulario para clasificar una cita." src="images/manual-usuario/02-formulario.png"
+              loading="eager"></a>
+          <figcaption>Figura 2. Formulario de clasificación antes de ingresar una cita.</figcaption>
+        </figure>
+        <h3 id="32-enviar-la-cita">3.2. Enviar la cita</h3>
+        <ol>
+          <li>Escriba o pegue el <strong>Contexto de la cita</strong>.</li>
+          <li>Complete el título y el abstract si los tiene disponibles.</li>
+          <li>Seleccione <strong>Clasificar cita</strong>.</li>
+          <li>Espere mientras se muestra <strong>Clasificando...</strong> y el mensaje <strong>Procesando la
+              cita...</strong>. Durante el procesamiento, los campos y botones del formulario quedan deshabilitados.
+          </li>
+          <li>Revise el panel <strong>Resultado</strong> cuando termine la solicitud.</li>
+        </ol>
+        <p>El botón <strong>Clasificar cita</strong> permanece deshabilitado cuando el contexto está vacío o contiene
+          únicamente espacios.</p>
+        <p>Para una primera prueba, seleccione <strong>Cargar ejemplo</strong>. Esta acción completa los tres campos con
+          un caso de ejemplo; después debe seleccionar <strong>Clasificar cita</strong> para enviarlo.</p>
+        <p>El botón <strong>Limpiar</strong> vacía el formulario y retira el resultado visible. No elimina una petición
+          ya registrada en el historial. Al modificar un campo o cargar el ejemplo, también se retira el resultado
+          anterior para que pueda realizar una nueva clasificación.</p>
+        <h3 id="33-interpretar-el-resultado">3.3. Interpretar el resultado</h3>
+        <p>Una clasificación exitosa muestra:</p>
+        <ul>
+          <li><strong>Categoría predicha:</strong> código y nombre de la subárea seleccionada por el modelo.</li>
+          <li><strong>Confianza:</strong> puntuación del modelo para la categoría predicha, expresada como porcentaje.
+          </li>
+          <li><strong>Probabilidades por subárea:</strong> distribución de las puntuaciones entre las categorías,
+            presentada mediante barras.</li>
+          <li><strong>Ver detalle de la petición:</strong> acceso a la información de la solicitud registrada.</li>
+        </ul>
+        <blockquote>
+          <p><strong>La confianza no equivale a exactitud validada.</strong> Una confianza alta no garantiza que la
+            categoría sea correcta. Para comprobar una predicción es necesario compararla con una categoría de
+            referencia.</p>
+        </blockquote>
+        <figure><a href="images/manual-usuario/03-clasificacion.png" target="_blank" rel="noopener"><img
+              alt="Figura 3. Resultado de una clasificación." src="images/manual-usuario/03-clasificacion.png"
+              loading="eager"></a>
+          <figcaption>Figura 3. Resultado de una clasificación: cs.IR con 72 % de confianza. Captura de la aplicación
+            desplegada, conservada en la Entrega 3.</figcaption>
+        </figure>
+        <h3 id="34-categorias-disponibles">3.4. Categorías disponibles</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Subárea</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>cs.AI</code></td>
+              <td>Inteligencia artificial</td>
+            </tr>
+            <tr>
+              <td><code>cs.CL</code></td>
+              <td>Procesamiento de lenguaje natural</td>
+            </tr>
+            <tr>
+              <td><code>cs.CV</code></td>
+              <td>Visión por computador</td>
+            </tr>
+            <tr>
+              <td><code>cs.IR</code></td>
+              <td>Recuperación de información</td>
+            </tr>
+            <tr>
+              <td><code>cs.LG</code></td>
+              <td>Aprendizaje automático</td>
+            </tr>
+            <tr>
+              <td><code>cs.MA</code></td>
+              <td>Sistemas multiagente</td>
+            </tr>
+            <tr>
+              <td><code>cs.NE</code></td>
+              <td>Cómputo neuronal y evolutivo</td>
+            </tr>
+            <tr>
+              <td><code>cs.RO</code></td>
+              <td>Robótica</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section>
+        <h2 id="4-consultar-el-monitoreo">4. Consultar el monitoreo</h2>
+        <p>Seleccione <strong>Monitoreo</strong>. Esta pantalla permite revisar las solicitudes registradas, su
+          comportamiento y sus resultados.</p>
+        <h3 id="41-aplicar-filtros">4.1. Aplicar filtros</h3>
+        <ol>
+          <li>Seleccione <strong>Desde</strong> y <strong>Hasta</strong> si desea limitar el intervalo de fechas.
+            También puede indicar solo uno de los extremos.</li>
+          <li>Seleccione una <strong>Categoría</strong> o deje <strong>Todas</strong>.</li>
+          <li>Seleccione un <strong>Estado</strong>: <strong>Todos</strong>, <strong>Éxito</strong> o
+            <strong>Error</strong>.
+          </li>
+          <li>Pulse <strong>Aplicar filtros</strong>.</li>
+        </ol>
+        <p>Los filtros afectan el historial, los indicadores y las gráficas. Para recuperar la vista completa, vacíe las
+          fechas, seleccione <strong>Todas</strong> y <strong>Todos</strong>, y vuelva a aplicar los filtros. La fecha
+          inicial no debe ser posterior a la final.</p>
+        <p>El historial se consulta al entrar en la pantalla. Para ver nuevas solicitudes mientras permanece en ella,
+          recargue la página; <strong>Aplicar filtros</strong> filtra los registros ya cargados.</p>
+        <h3 id="42-interpretar-los-indicadores-y-las-graficas">4.2. Interpretar los indicadores y las gráficas</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Elemento</th>
+              <th>Interpretación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Peticiones</strong></td>
+              <td>Número de registros que cumplen los filtros aplicados.</td>
+            </tr>
+            <tr>
+              <td><strong>Confianza promedio</strong></td>
+              <td>Promedio de confianza de las predicciones exitosas que tienen este dato.</td>
+            </tr>
+            <tr>
+              <td><strong>Latencia p95</strong></td>
+              <td>Tiempo de inferencia, en milisegundos, bajo el cual se encuentra al menos el 95 % de las latencias
+                registradas en la selección.</td>
+            </tr>
+            <tr>
+              <td><strong>Tasa de error</strong></td>
+              <td>Porcentaje de registros con estado de error dentro de la selección.</td>
+            </tr>
+            <tr>
+              <td><strong>Volumen de peticiones por fecha</strong></td>
+              <td>Cantidad de solicitudes agrupadas por fecha.</td>
+            </tr>
+            <tr>
+              <td><strong>Distribución por categoría</strong></td>
+              <td>Cantidad de registros con cada categoría predicha.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Las fechas se presentan según la zona horaria del navegador. Un guion <strong>—</strong> indica que no hay un
+          valor disponible para calcular o mostrar la métrica. La latencia registrada corresponde a la inferencia, no al
+          tiempo total de espera en el navegador; los errores de inferencia pueden tener latencia cero.</p>
+        <h3 id="43-abrir-una-peticion-del-historial">4.3. Abrir una petición del historial</h3>
+        <p>La tabla muestra fecha y hora, ID, categoría, confianza, latencia, estado y versión del modelo. Las
+          solicitudes más recientes aparecen primero.</p>
+        <p>Seleccione el <strong>ID</strong> de una fila para abrir su detalle. <strong>Éxito</strong> indica que la
+          inferencia terminó correctamente; no significa que su categoría haya sido validada por una persona. Un
+          registro con <strong>Error</strong> puede carecer de categoría y confianza.</p>
+        <figure><a href="images/manual-usuario/04-monitoreo.png" target="_blank" rel="noopener"><img
+              alt="Figura 4. Monitoreo de las peticiones de clasificación." src="images/manual-usuario/04-monitoreo.png"
+              loading="eager"></a>
+          <figcaption>Figura 4. Monitoreo con filtros, indicadores, gráficas e historial de cinco peticiones.
+          </figcaption>
+        </figure>
+      </section>
+      <section>
+        <h2 id="5-revisar-el-detalle-de-una-peticion">5. Revisar el detalle de una petición</h2>
+        <p>Acceda desde <strong>Ver detalle de la petición</strong> en el resultado o desde el ID de una fila del
+          historial.</p>
+        <p>La pantalla presenta:</p>
+        <ul>
+          <li>Identificador y estado de la petición.</li>
+          <li>Categoría predicha, confianza, latencia y versión del modelo.</li>
+          <li>Distribución de probabilidades por categoría, cuando está disponible.</li>
+          <li>Longitud del contexto en <strong>caracteres</strong>.</li>
+          <li>Indicación de si se proporcionaron título y abstract.</li>
+          <li>Fecha y hora del registro.</li>
+          <li>Categoría real, si el registro tiene una; de lo contrario, <strong>Resultado aún no validado</strong>.
+          </li>
+        </ul>
+        <p>La información de entrada resume la disponibilidad de los campos; esta pantalla no muestra los textos
+          completos enviados. En la versión actual no es posible confirmar ni corregir una categoría desde el frontend.
+        </p>
+        <p>Seleccione <strong>Volver al historial</strong> para regresar al monitoreo.</p>
+        <p>Las capturas de clasificación, monitoreo y detalle ilustran solicitudes distintas. Para seguir una misma
+          solicitud en su propia sesión, compruebe siempre su ID.</p>
+        <figure><a href="images/manual-usuario/05-detalle.png" target="_blank" rel="noopener"><img
+              alt="Figura 5. Detalle de una petición de clasificación." src="images/manual-usuario/05-detalle.png"
+              loading="eager"></a>
+          <figcaption>Figura 5. Detalle de una petición de ejemplo: cs.CV con 97 % de confianza y 154 caracteres de
+            contexto.</figcaption>
+        </figure>
+      </section>
+      <section>
+        <h2 id="6-consultar-la-evaluacion-del-modelo">6. Consultar la evaluación del modelo</h2>
+        <p>Seleccione <strong>Evaluación del modelo</strong> para revisar los resultados publicados de SciBERT Plus.
+          Esta pantalla muestra una evaluación previamente realizada; sus métricas no se recalculan con las citas
+          enviadas desde el formulario.</p>
+        <h3 id="61-metricas-generales">6.1. Métricas generales</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Indicador</th>
+              <th>Significado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Macro F1</strong></td>
+              <td>Promedio de F1 entre las subáreas, dando el mismo peso a cada una. F1 combina precisión y capacidad de
+                recuperar los casos de una clase.</td>
+            </tr>
+            <tr>
+              <td><strong>Accuracy</strong></td>
+              <td>Porcentaje de predicciones correctas en el conjunto evaluado.</td>
+            </tr>
+            <tr>
+              <td><strong>Weighted F1</strong></td>
+              <td>Promedio de F1 ponderado por la cantidad de ejemplos de cada clase.</td>
+            </tr>
+            <tr>
+              <td><strong>Registros evaluados</strong></td>
+              <td>Número de ejemplos utilizados en la evaluación.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>La evaluación incluida actualmente utiliza 800 registros de test, con 100 por clase. Presenta Macro F1 de
+          <strong>67,16 %</strong>, Accuracy de <strong>67,50 %</strong> y Weighted F1 de <strong>67,16 %</strong>.
+        </p>
+        <h3 id="62-matriz-de-confusion-y-resultados-por-subarea">6.2. Matriz de confusión y resultados por subárea</h3>
+        <p>En <strong>Matriz de confusión · Test</strong>, las filas corresponden a la clase real y las columnas a la
+          clase predicha. La diagonal contiene los aciertos; las demás celdas muestran confusiones entre clases. Los
+          valores de las celdas son cantidades de registros.</p>
+        <p>En <strong>F1 por subárea · Test</strong>, las barras muestran el F1 de cada clase en porcentaje, ordenado de
+          mayor a menor. Al mantener el cursor sobre una barra puede consultar precisión, recall y soporte. El soporte
+          es la cantidad de ejemplos de esa clase.</p>
+        <p>En pantallas estrechas puede desplazarse horizontalmente dentro de la matriz para consultar sus columnas.</p>
+        <h3 id="63-comparacion-de-modelos">6.3. Comparación de modelos</h3>
+        <p>La tabla <strong>Comparación de modelos · Validación</strong> muestra resultados obtenidos durante la
+          selección del modelo. Estos resultados corresponden al conjunto de validación; las tarjetas principales y la
+          matriz corresponden al conjunto de test.</p>
+        <p>SciBERT Plus aparece como modelo seleccionado. El ensamble figura como el de mejor validación, pero no es el
+          modelo desplegado. Consulte también las notas al final de la pantalla sobre la partición de datos y las
+          limitaciones de la evaluación.</p>
+        <figure><a href="images/manual-usuario/06-evaluacion-modelo.png" target="_blank" rel="noopener"><img
+              alt="Figura 6. Evaluación del modelo SciBERT Plus." src="images/manual-usuario/06-evaluacion-modelo.png"
+              loading="eager"></a>
+          <figcaption>Figura 6. Evaluación de SciBERT Plus: métricas de test, matriz de confusión y comparación de
+            validación.</figcaption>
+        </figure>
+      </section>
+      <section>
+        <h2 id="7-mensajes-y-solucion-de-problemas">7. Mensajes y solución de problemas</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Situación</th>
+              <th>Acción recomendada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Clasificar cita</strong> está deshabilitado.</td>
+              <td>Ingrese un contexto que no esté vacío o espere a que termine la solicitud en curso.</td>
+            </tr>
+            <tr>
+              <td>Aparece un error de conexión con CiteScope API.</td>
+              <td>Solicite al responsable del servicio que compruebe su disponibilidad y la carga del modelo. Después
+                vuelva a enviar la cita o utilice <strong>Reintentar</strong>, cuando esté disponible.</td>
+            </tr>
+            <tr>
+              <td>La clasificación informa un error de inferencia.</td>
+              <td>Revise la entrada y vuelva a intentarlo. Si persiste, comunique el mensaje al responsable del
+                servicio.</td>
+            </tr>
+            <tr>
+              <td><strong>No hay peticiones para los filtros seleccionados.</strong></td>
+              <td>Amplíe el intervalo, quite los filtros o realice una primera clasificación si el historial está vacío.
+              </td>
+            </tr>
+            <tr>
+              <td>No aparece una petición reciente.</td>
+              <td>Recargue el monitoreo y compruebe los filtros aplicados.</td>
+            </tr>
+            <tr>
+              <td><strong>Petición no encontrada.</strong></td>
+              <td>Vuelva al historial y abra uno de los IDs disponibles.</td>
+            </tr>
+            <tr>
+              <td><strong>No hay probabilidades disponibles para esta petición.</strong></td>
+              <td>Revise el estado del registro; una inferencia fallida puede no tener probabilidades.</td>
+            </tr>
+            <tr>
+              <td>La predicción no coincide con la categoría que esperaba.</td>
+              <td>Revise que el contexto, el título y el abstract correspondan a la misma cita. El modelo puede
+                equivocarse y la interfaz actual no permite corregir el registro.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section>
+        <h2 id="8-recorrido-de-comprobacion">8. Recorrido de comprobación</h2>
+        <p>Para familiarizarse con la aplicación, realice este recorrido:</p>
+        <ol>
+          <li>Abra <strong>Inicio</strong> y seleccione <strong>Clasificar una cita</strong>.</li>
+          <li>Pulse <strong>Cargar ejemplo</strong> y luego <strong>Clasificar cita</strong>.</li>
+          <li>Revise la categoría, la confianza y las probabilidades obtenidas.</li>
+          <li>Abra <strong>Ver detalle de la petición</strong> y compruebe su identificador.</li>
+          <li>Seleccione <strong>Volver al historial</strong> y localice la solicitud.</li>
+          <li>Aplique un filtro por la categoría obtenida y compruebe que la petición permanece visible.</li>
+          <li>Abra <strong>Evaluación del modelo</strong> y consulte las métricas del conjunto de test.</li>
+        </ol>
+        <p>Los valores de confianza y latencia de las capturas corresponden a la ejecución utilizada para ilustrar el
+          manual; no deben interpretarse como valores fijos para nuevas solicitudes.</p>
+      </section>
+    </main>
+  </div>
+  <footer><strong>CiteScope · Grupo 8</strong><br>Camilo Bejarano · German Rodriguez · Jose Arteaga · Sebastian
+    Toro<br>Universidad de los Andes · Entrega final</footer>
+  <script>
+    async function printManual(button) {
+      const label = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Preparando imágenes…';
+      try {
+        await Promise.all(Array.from(document.images, image => image.decode()));
+        await document.fonts.ready;
+        window.print();
+      } catch {
+        window.alert('No se pudieron cargar todas las imágenes. Compruebe que la carpeta images acompañe al manual y vuelva a intentar.');
+      } finally {
+        button.disabled = false;
+        button.textContent = label;
+      }
+    }
+  </script>
+</body>
+
+</html>
