@@ -1,6 +1,10 @@
-<div class="cover">
+# CiteScope — Microproyecto Entrega 3
 
-<div class="page-break"></div>
+**Proyecto — Desarrollo de Soluciones / MAIA — Grupo 8**
+
+**Camilo Bejarano · German Rodriguez · Jose Arteaga · Sebastian Toro**
+
+Universidad de los Andes - Septiembre de 2026
 
 # 1. Resumen del problema
 
@@ -116,16 +120,21 @@ El contrato utiliza ocho códigos arXiv y conserva valores nulos cuando una pred
 
 La integración final elimina respuestas ficticias en clasificación y monitoreo ya que ya se cuenta con integración con el API.
 
-*Para poder observar todos las interfaces desarrolladas, vaya a la seccion de #Mockups*
+*Para observar todas las interfaces desarrolladas, consulte la sección de [Mockups](https://github.com/germarodr/MAIA4401_MicroProyecto/tree/main/mockups).*
+
+<figure>
+  <img src="../../mockups/01-inicio.png" alt="Interfaz de inicio propuesta para CiteScope">
+  <figcaption><strong>Figura 5.</strong> Interfaz de inicio de CiteScope, desde la cual se accede a las vistas de clasificación, monitoreo y evaluación del modelo.</figcaption>
+</figure>
 
 <figure>
   <img src="images/05-clasificacion-desplegada.png" alt="Clasificación real realizada desde el frontend desplegado">
-  <figcaption><strong>Figura 5.</strong> Se muestra una inferencia desde la URL pública: los tres campos de entrada producen la categoría `cs.IR`, 72% de confianza y la distribución completa de probabilidades.</figcaption>
+  <figcaption><strong>Figura 6.</strong> Se muestra una inferencia desde la URL pública: los tres campos de entrada producen la categoría `cs.IR`, 72% de confianza y la distribución completa de probabilidades.</figcaption>
 </figure>
 
 <figure>
   <img src="images/06-monitoreo-desplegado.png" alt="Monitoreo de predicciones persistidas por la API">
-  <figcaption><strong>Figura 6.</strong> Se observa el monitoreo operativo con ocho peticiones persistidas, indicadores de confianza, latencia y error, distribución por categoría e historial asociado a la versión desplegada.</figcaption>
+  <figcaption><strong>Figura 7.</strong> Se observa el monitoreo operativo con ocho peticiones persistidas, indicadores de confianza, latencia y error, distribución por categoría e historial asociado a la versión desplegada.</figcaption>
 </figure>
 
 # 4. Empaquetamiento y despliegue en la nube
@@ -145,17 +154,17 @@ El despliegue final se ejecutó sobre una instancia EC2 Ubuntu 24.04 con Docker 
 
 <figure>
   <img src="images/07-despliegue-docker-ec2.png" alt="Servicios Docker saludables y verificación de la API en AWS EC2">
-  <figcaption><strong>Figura 7.</strong> Evidencia del despliegue en EC2: usuario, IP pública, tres servicios saludables y carga correcta de SciBERT Plus reportada por `/health`.</figcaption>
+  <figcaption><strong>Figura 8.</strong> Evidencia del despliegue en EC2: usuario, IP pública, tres servicios saludables y carga correcta de SciBERT Plus reportada por `/health`.</figcaption>
 </figure>
 
 <figure>
   <img src="images/08-api-swagger-desplegada.png" alt="Documentación Swagger de la API desplegada en EC2">
-  <figcaption><strong>Figura 8.</strong> Contrato público de CiteScope API en FastAPI, con los endpoints de salud, creación y consulta de predicciones.</figcaption>
+  <figcaption><strong>Figura 9.</strong> Contrato público de CiteScope API en FastAPI, con los endpoints de salud, creación y consulta de predicciones.</figcaption>
 </figure>
 
 <figure>
   <img src="images/09-modelo-dvc-s3.png" alt="Objeto DVC del modelo almacenado en Amazon S3">
-  <figcaption><strong>Figura 9.</strong> Objeto de 419,4 MB almacenado en S3 bajo la ruta derivada del hash registrado en `model.safetensors.dvc`.</figcaption>
+  <figcaption><strong>Figura 10.</strong> Objeto de 419,4 MB almacenado en S3 bajo la ruta derivada del hash registrado en `model.safetensors.dvc`.</figcaption>
 </figure>
 
 # 5. Resultados y conclusiones
@@ -170,27 +179,27 @@ Las principales limitaciones son el desempeño desigual entre categorías cercan
 
 # 6. Repositorio y soportes de entrega
 
-El código se encuentra en [MAIA4401_MicroProyecto](https://github.com/germarodr/MAIA4401_MicroProyecto). `dev` se utilizó como rama de integración y el estado final debe fusionarse en `main` antes de entregar. Los aportes individuales se conservan en el historial de commits.
+El código se encuentra en [MAIA4401_MicroProyecto](https://github.com/germarodr/MAIA4401_MicroProyecto). `dev` se utilizó como rama de integración y el estado final se encuentra en `main`.
 
-| Soporte                          | Ubicación o estado                                                                                                                                                  |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Datos y DVC                      | `Dataset/*.dvc`, `.dvc/config`, `scripts/`                                                                                                                     |
-| Modelos y evaluación            | `models/01_preparacion_datos.ipynb` a `models/08_evaluacion_test.ipynb`                                                                                          |
-| Pesos desplegados                | `citescope-api/model_artifacts/model.safetensors.dvc`                                                                                                              |
-| API y Docker                     | `citescope-api/api/`, `citescope-api/docker-compose.yml`                                                                                                         |
-| Frontend                         | `frontend/`                                                                                                                                                        |
-| Manual de usuario                | [Manual de usuario de CiteScope](<https://github.com/germarodr/MAIA4401_MicroProyecto/blob/dev/Reportes/Entrega%20Final/Manual_Usuario_CiteScope.pdf>)                |
-| Manual de instalación           | [Manual de instalación de CiteScope](<https://github.com/germarodr/MAIA4401_MicroProyecto/blob/dev/Reportes/Entrega%20Final/Manual_Instalaci%C3%B3n_CiteScope.html>) |
-| Video Presentación del proyecto | [Video de presentación y demostración de CiteScope](https://drive.google.com/file/d/1FKqN6_wKn3LPOlDYMRLuO5GuJjNlnPxz/view)                                         |
+| Soporte                          | Ubicación o estado                                                                                                                                                   |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Datos y DVC                      | `Dataset/*.dvc`, `.dvc/config`, `scripts/`                                                                                                                      |
+| Modelos y evaluación            | `models/01_preparacion_datos.ipynb` a `models/08_evaluacion_test.ipynb`                                                                                           |
+| Pesos desplegados                | `citescope-api/model_artifacts/model.safetensors.dvc`                                                                                                               |
+| API y Docker                     | `citescope-api/api/`, `citescope-api/docker-compose.yml`                                                                                                          |
+| Frontend                         | `frontend/`                                                                                                                                                         |
+| Manual de usuario                | [Manual de usuario de CiteScope](<https://github.com/germarodr/MAIA4401_MicroProyecto/blob/main/Reportes/Entrega%20Final/Manual_Usuario_CiteScope.pdf>)                |
+| Manual de instalación           | [Manual de instalación de CiteScope](<https://github.com/germarodr/MAIA4401_MicroProyecto/blob/main/Reportes/Entrega%20Final/Manual_Instalaci%C3%B3n_CiteScope.html>) |
+| Video Presentación del proyecto | [Video de presentación y demostración de CiteScope](https://drive.google.com/file/d/1FKqN6_wKn3LPOlDYMRLuO5GuJjNlnPxz/view)                                          |
 
 # 7. Reporte de trabajo en equipo
 
-| Integrante       | Contribución acumulada y final                                                                                                                                                                                                          | Evidencia principal                                                                                                                                       |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Camilo Bejarano  | Diseñó la base de datos y desarrolló la API de inferencia, sus contratos, persistencia y endpoints; incorporó la descarga automatizada del modelo y el manual de instalación.                                                       | `citescope-api/api/`, `db/`, `docker-compose.yml`, manual de instalación; commits `ca6e103`, `1dedec7`, `3b9fabd`, `8a5db06`, `74674b7`. |
-| German Rodriguez | Construyó y revisó preparación de datos, baselines y experimentos; consolidó documentación, realizó revisión cruzada e integró el manual de usuario.                                                                             | `models/`, `Reportes/`; commits `4a796d3`, `b005fa8`, `9703984`, `d3f818b`, `31e8314`.                                                      |
-| Jose Arteaga     | Configuró AWS EC2, SSH, MLflow y S3; desarrolló SciBERT Plus, registró/evaluó el modelo, versionó sus pesos con DVC y desplegó el sistema completo con Docker en EC2.                                                              | `models/07_scibert_plus.ipynb`, `08_evaluacion_test.ipynb`, evidencias AWS; commits `74eb914`, `442777b`, `d93ea90`, `afb5ffa`, `e07bad2`.  |
-| Sebastian Toro   | Diseñe arqutectura global, mockups y desarrolle el frontend; conecte clasificación y monitoreo con la API e incorporó frontend, API y base de datos al despliegue Docker Compose. valide y ajuste los manuales, sinocronize el equipo | `mockups/`, `frontend/`, `citescope-api/docker-compose.yml`; commits `452a9d8`, `b981a2e`, `9036059`, `d1b8510`.                            |
+| Integrante       | Contribución acumulada y final                                                                                                                                                                                                                | Evidencia principal                                                                                                                                       |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Camilo Bejarano  | Diseñó la base de datos y desarrolló la API de inferencia, sus contratos, persistencia y endpoints; incorporó la descarga automatizada del modelo y el manual de instalación.                                                             | `citescope-api/api/`, `db/`, `docker-compose.yml`, manual de instalación; commits `ca6e103`, `1dedec7`, `3b9fabd`, `8a5db06`, `74674b7`. |
+| German Rodriguez | Construyó y revisó preparación de datos, baselines y experimentos; consolidó documentación, realizó revisión cruzada e integró el manual de usuario.                                                                                   | `models/`, `Reportes/`; commits `4a796d3`, `b005fa8`, `9703984`, `d3f818b`, `31e8314`.                                                      |
+| Jose Arteaga     | Configuró AWS EC2, SSH, MLflow y S3; desarrolló SciBERT Plus, registró/evaluó el modelo, versionó sus pesos con DVC y desplegó el sistema completo con Docker en EC2.                                                                    | `models/07_scibert_plus.ipynb`, `08_evaluacion_test.ipynb`, evidencias AWS; commits `74eb914`, `442777b`, `d93ea90`, `afb5ffa`, `e07bad2`.  |
+| Sebastian Toro   | Diseñé arquitectura global, mockups y desarrolle el frontend; conecte clasificación y monitoreo con la API e incorporé frontend, API y base de datos al despliegue Docker Compose. validé y ajusté los manuales, sincronicé el equipo. | `mockups/`, `frontend/`, `citescope-api/docker-compose.yml`; commits `452a9d8`, `b981a2e`, `9036059`, `d1b8510`.                            |
 
 # Referencias
 
@@ -200,8 +209,3 @@ El código se encuentra en [MAIA4401_MicroProyecto](https://github.com/germarodr
 - MLflow. https://mlflow.org/
 - DVC — Data Version Control. https://dvc.org/
 - Docker. https://docs.docker.com/
-
----
-
-Universidad de los Andes 2026
------------------------------
