@@ -1,3 +1,61 @@
+# services:
+#   db:
+#     image: postgres:16-alpine
+#     restart: unless-stopped
+#     environment:
+#       POSTGRES_DB: ${POSTGRES_DB:-citescope}
+#       POSTGRES_USER: ${POSTGRES_USER:-citescope}
+#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-citescope}
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-citescope} -d ${POSTGRES_DB:-citescope}"]
+#       interval: 5s
+#       retries: 5
+
+#   api:
+#     build: ./api
+#     restart: unless-stopped
+#     depends_on:
+#       db:
+#         condition: service_healthy
+#     environment:
+#       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-citescope}:${POSTGRES_PASSWORD:-citescope}@db:5432/${POSTGRES_DB:-citescope}
+#       MODEL_DIR: /app/model_artifacts
+#       MODEL_VERSION: ${MODEL_VERSION:-SciBERT-Plus-v1-checkpoint900}
+#     volumes:
+#       - ./model_artifacts:/app/model_artifacts:ro
+#     ports:
+#       - "8000:8000"
+#     healthcheck:
+#       test: ["CMD", "python", "-c", "import json, urllib.request; data = json.load(urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5)); assert data['model_loaded']"]
+#       interval: 10s
+#       timeout: 6s
+#       retries: 5
+#       start_period: 60s
+
+#   frontend:
+#     build: ../frontend
+#     restart: unless-stopped
+#     depends_on:
+#       api:
+#         condition: service_healthy
+#     environment:
+#       CITESCOPE_API_URL: http://api:8000
+#     ports:
+#       - "${FRONTEND_PORT:-3000}:3000"
+#     healthcheck:
+#       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+#       interval: 30s
+#       timeout: 5s
+#       retries: 3
+#       start_period: 15s
+
+# volumes:
+#   pgdata:
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 services:
   db:
     image: postgres:16-alpine
@@ -13,12 +71,31 @@ services:
       interval: 5s
       retries: 5
 
+  model-init:
+    image: python:3.11-slim
+    volumes:
+      - ./model_artifacts:/model
+    environment:
+      MODEL_GDRIVE_ID: ${MODEL_GDRIVE_ID:-1uDGhC-Uf3E8Lxr8QrHBLb9tPSfcskDwZ}
+    # Descarga el checkpoint solo si todavía no está en el volumen (idempotente).
+    command: >
+      sh -c "
+        if [ -f /model/model.safetensors ]; then
+          echo 'Modelo ya presente, se omite la descarga.';
+        else
+          pip install --no-cache-dir gdown==6.4.0 &&
+          gdown $$MODEL_GDRIVE_ID -O /model/model.safetensors;
+        fi
+      "
+
   api:
     build: ./api
     restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
+      model-init:
+        condition: service_completed_successfully
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-citescope}:${POSTGRES_PASSWORD:-citescope}@db:5432/${POSTGRES_DB:-citescope}
       MODEL_DIR: /app/model_artifacts
@@ -27,6 +104,29 @@ services:
       - ./model_artifacts:/app/model_artifacts:ro
     ports:
       - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import json, urllib.request; data = json.load(urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5)); assert data['model_loaded']"]
+      interval: 10s
+      timeout: 6s
+      retries: 5
+      start_period: 60s
+
+  frontend:
+    build: ../frontend
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      CITESCOPE_API_URL: http://api:8000
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
 
 volumes:
   pgdata:

@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Manual de instalación — CiteScope</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --bg: #ffffff;
+    --bg-blob: #eaf6fd;
+    --text: #0c2a4a;
+    --text-soft: #4b5a6b;
+    --text-faint: #8496a8;
+    --accent: #1e9fe0;
+    --accent-ink: #0c2a4a;
+    --border: #e3e9ef;
+    --code-bg: #0c2a4a;
+    --code-text: #e7f3fb;
+    --code-comment: #8fb3cc;
+
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0a1929;
+      --bg-blob: #10243e;
+      --text: #eaf2fb;
+      --text-soft: #9fb3c8;
+      --text-faint: #6f869c;
+      --accent: #3fb8f4;
+      --accent-ink: #04101c;
+      --border: #1d3a57;
+      --code-bg: #071422;
+      --code-text: #cfe8f7;
+      --code-comment: #5f8bab;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0a1929;
+    --bg-blob: #10243e;
+    --text: #eaf2fb;
+    --text-soft: #9fb3c8;
+    --text-faint: #6f869c;
+    --accent: #3fb8f4;
+    --accent-ink: #04101c;
+    --border: #1d3a57;
+    --code-bg: #071422;
+    --code-text: #cfe8f7;
+    --code-comment: #5f8bab;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent); }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- header ---------- */
+
+  header.top {
+    padding: 28px 0 0;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand svg { flex-shrink: 0; }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+  }
+  .wordmark .scope { color: var(--accent); }
+
+  .gh-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-soft);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .gh-link:hover { border-color: var(--accent); color: var(--accent); }
+  .gh-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- hero ---------- */
+
+  .hero {
+    padding: 56px 0 48px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: 32px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise .5s ease-out .05s forwards;
+  }
+
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 44px);
+    line-height: 1.08;
+    margin: 0 0 14px;
+    letter-spacing: -0.015em;
+  }
+
+  .hero p {
+    color: var(--text-soft);
+    font-size: 17px;
+    max-width: 46ch;
+    margin: 0;
+  }
+
+  .hero-art {
+    aspect-ratio: 1;
+    border-radius: 44% 56% 58% 42% / 48% 44% 56% 52%;
+    background: var(--bg-blob);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---------- sections ---------- */
+
+  section { padding: 40px 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    margin: 0 0 20px;
+  }
+
+  /* ---------- prerequisites ---------- */
+
+  .checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: var(--text-soft);
+    font-size: 15px;
+  }
+  .checklist svg { flex-shrink: 0; margin-top: 2px; color: var(--accent); }
+  .checklist strong { color: var(--text); font-weight: 600; }
+
+  /* ---------- steps ---------- */
+
+  .steps { position: relative; margin: 0; padding: 0; list-style: none; }
+
+  .steps li {
+    position: relative;
+    padding: 0 0 36px 52px;
+  }
+  .steps li:last-child { padding-bottom: 0; }
+
+  .steps li::before {
+    content: "";
+    position: absolute;
+    left: 17px;
+    top: 36px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .steps li:last-child::before { display: none; }
+
+  .step-num {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #ffffff;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .steps h3 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    margin: 4px 0 6px;
+  }
+
+  .steps p {
+    color: var(--text-soft);
+    font-size: 15px;
+    margin: 0 0 12px;
+  }
+
+  .note {
+    font-size: 14px;
+    color: var(--text-faint);
+    margin: 10px 0 0;
+    padding-left: 14px;
+    border-left: 2px solid var(--border);
+  }
+
+  .callout {
+    background: var(--bg-blob);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--text-soft);
+  }
+  .callout strong { color: var(--text); }
+
+  /* ---------- code blocks ---------- */
+
+  .code-block {
+    position: relative;
+    background: var(--code-bg);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .code-block pre {
+    margin: 0;
+    padding: 16px 52px 16px 18px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--code-text);
+  }
+
+  .code-block .cmt { color: var(--code-comment); }
+
+  .copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,.08);
+    color: var(--code-text);
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background .15s ease;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,.16); }
+  .copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- troubleshooting ---------- */
+
+  .issues { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+  .issues li {
+    padding: 18px 0;
+    border-top: 1px solid var(--border);
+  }
+  .issues li:first-child { border-top: none; padding-top: 0; }
+
+  .issues .problem {
+    font-weight: 600;
+    font-size: 15px;
+    margin: 0 0 6px;
+  }
+  .issues .fix {
+    color: var(--text-soft);
+    font-size: 14.5px;
+    margin: 0;
+  }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    padding: 32px 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 13.5px;
+    color: var(--text-faint);
+  }
+  footer a { color: var(--text-faint); }
+  footer a:hover { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-art { max-width: 200px; margin: 0 auto; order: -1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand-row">
+      <div class="brand">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 7.5C4 6.67 4.67 6 5.5 6H13C14.1 6 15 6.9 15 8V22C15 21.17 14.33 20.5 13.5 20.5H4V7.5Z" stroke="var(--accent-ink, #0c2a4a)" stroke-width="1.6" stroke-linejoin="round" style="stroke:var(--text)"/>
+          <path d="M26 7.5C26 6.67 25.33 6 24.5 6H17C15.9 6 15 6.9 15 8V22C15 21.17 15.67 20.5 16.5 20.5H26V7.5Z" stroke-width="1.6" stroke-linejoin="round" style="stroke:var(--text)"/>
+          <circle cx="21.5" cy="16.5" r="4" style="fill:var(--bg); stroke:var(--accent)" stroke-width="1.7"/>
+          <line x1="24.4" y1="19.4" x2="27" y2="22" style="stroke:var(--accent)" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <span class="wordmark">CITE<span class="scope">SCOPE</span></span>
+      </div>
+      <a class="gh-link" href="https://github.com/germarodr/MAIA4401_MicroProyecto" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        Ver repositorio
+      </a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Manual de instalación</h1>
+      <p>Clone el repositorio, levante los contenedores y tenga su clasificador de citas académicas funcionando en unos minutos, sin pasos manuales para el modelo.</p>
+    </div>
+    <div class="hero-art">
+      <svg width="88" height="88" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 7.5C4 6.67 4.67 6 5.5 6H13C14.1 6 15 6.9 15 8V22C15 21.17 14.33 20.5 13.5 20.5H4V7.5Z" style="stroke:var(--text)" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M26 7.5C26 6.67 25.33 6 24.5 6H17C15.9 6 15 6.9 15 8V22C15 21.17 15.67 20.5 16.5 20.5H26V7.5Z" style="stroke:var(--text)" stroke-width="1.4" stroke-linejoin="round"/>
+        <circle cx="21.5" cy="16.5" r="4" style="fill:var(--bg-blob); stroke:var(--accent)" stroke-width="1.5"/>
+        <line x1="24.4" y1="19.4" x2="27" y2="22" style="stroke:var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <section id="antes-de-empezar">
+    <h2>Antes de empezar</h2>
+    <ul class="checklist">
+      <li>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.2l2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span><strong>Docker</strong> y <strong>Docker Compose v2</strong> instalados y corriendo</span>
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.2l2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span><strong>Git</strong> para clonar el repositorio</span>
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.2l2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Alrededor de <strong>1 GB libre en disco</strong> — el checkpoint del modelo pesa ~420 MB</span>
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.2l2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Los puertos <strong>3000</strong>, <strong>8000</strong> y <strong>5432</strong> libres en su máquina</span>
+      </li>
+    </ul>
+  </section>
+
+  <section id="instalacion">
+    <h2>Instalación</h2>
+    <ol class="steps">
+
+      <li>
+        <div class="step-num">1</div>
+        <h3>Clone el repositorio</h3>
+        <p>Ubíquese en una carpeta local, fuera de directorios sincronizados por OneDrive o Google Drive.</p>
+        <div class="code-block">
+          <button class="copy-btn" type="button">Copiar</button>
+          <pre><span class="cmt"># clonar y entrar a la carpeta del microservicio</span>
+git clone https://github.com/germarodr/MAIA4401_MicroProyecto.git
+cd MAIA4401_MicroProyecto/citescope-api</pre>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-num">2</div>
+        <h3>Configure las variables de entorno</h3>
+        <p>Es opcional: los valores por defecto ya funcionan para un despliegue local.</p>
+        <div class="code-block">
+          <button class="copy-btn" type="button">Copiar</button>
+          <pre>cp .env.example .env</pre>
+        </div>
+        <p class="note">Edite el archivo <code>.env</code> solo si necesita otra contraseña de base de datos, otro puerto de frontend o apuntar a otro checkpoint del modelo.</p>
+      </li>
+
+      <li>
+        <div class="step-num">3</div>
+        <h3>Levante los servicios</h3>
+        <p>Un único comando construye las imágenes, descarga el checkpoint del modelo desde su almacenamiento y arranca los tres servicios en orden.</p>
+        <div class="code-block">
+          <button class="copy-btn" type="button">Copiar</button>
+          <pre>docker compose up -d</pre>
+        </div>
+        <p class="note">La primera vez tarda varios minutos: descarga el modelo, construye el frontend y carga los pesos en memoria.</p>
+        <div class="callout">
+          <strong>Nota:</strong> el checkpoint del modelo se descarga desde un enlace de almacenamiento en la nube debido a que su tamaño (~420&nbsp;MB) supera el límite práctico de versionado de GitHub. Esta descarga es independiente del registro de modelos en MLflow: el proyecto no se conecta al almacenamiento en la nube de MLflow, ya que el entorno actual está desplegado sobre una cuenta de AWS Academy, cuyos parámetros de conexión son temporales y se renuevan en cada sesión de laboratorio.
+        </div>
+      </li>
+
+      <li>
+        <div class="step-num">4</div>
+        <h3>Verifique que todo esté saludable</h3>
+        <p>Los tres servicios deben quedar en estado <em>Healthy</em> antes de usar la aplicación.</p>
+        <div class="code-block">
+          <button class="copy-btn" type="button">Copiar</button>
+          <pre>docker compose ps</pre>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-num">5</div>
+        <h3>Abra la aplicación</h3>
+        <p>Con los servicios arriba, ingrese al frontend desde el navegador.</p>
+        <div class="code-block">
+          <button class="copy-btn" type="button">Copiar</button>
+          <pre>http://localhost:3000</pre>
+        </div>
+        <p class="note">Para consultar la API directamente: <code>http://localhost:8000/health</code> (estado del modelo) o <code>http://localhost:8000/docs</code> (documentación interactiva).</p>
+      </li>
+
+    </ol>
+  </section>
+
+  <section id="problemas-frecuentes">
+    <h2>Si algo no arranca</h2>
+    <ul class="issues">
+      <li>
+        <p class="problem">model-init termina con un error de permisos</p>
+        <p class="fix">El checkpoint en su almacenamiento de origen debe estar compartido como "Cualquier persona con el enlace, Lector". Confírmelo abriendo el enlace de descarga en una ventana de incógnito antes de volver a intentarlo.</p>
+      </li>
+      <li>
+        <p class="problem">api no encuentra el modelo y el proyecto vive en OneDrive</p>
+        <p class="fix">Marque la carpeta <code>model_artifacts</code> como "Mantener siempre en este dispositivo" para que WSL no la vea como un archivo todavía no sincronizado.</p>
+      </li>
+      <li>
+        <p class="problem">Un puerto ya está en uso</p>
+        <p class="fix">Cambie <code>FRONTEND_PORT</code> (u otro puerto en conflicto) en su archivo <code>.env</code> antes de volver a levantar los servicios.</p>
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>CiteScope · Microproyecto MAIA4401</span>
+    <a href="https://github.com/germarodr/MAIA4401_MicroProyecto" target="_blank" rel="noopener">github.com/germarodr/MAIA4401_MicroProyecto</a>
+  </footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', async function () {
+      var pre = btn.parentElement.querySelector('pre');
+      var text = pre.innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        var original = btn.textContent;
+        btn.textContent = 'Copiado';
+        setTimeout(function () { btn.textContent = original; }, 1500);
+      } catch (err) {
+        btn.textContent = 'No se pudo copiar';
+        setTimeout(function () { btn.textContent = 'Copiar'; }, 1500);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
