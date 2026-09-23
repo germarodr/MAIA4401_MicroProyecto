@@ -132,7 +132,8 @@ El contrato utiliza ocho códigos arXiv y conserva valores nulos cuando una pred
 | Detalle (`/monitoreo/[predictionId]`) | Página que presenta la trazabilidad, entrada disponible, versión, latencia y probabilidades de una inferencia.                              |
 | Evaluación (`/evaluacion`)           | Página pagina que muestra resultados estáticos y verificables del test: métricas globales, F1 por clase, matriz y comparación de validación. |
 
-La integración final elimina respuestas ficticias en clasificación y monitoreo ya que ya ceunta con integración con el API.
+La integración final elimina respuestas ficticias en clasificación y monitoreo ya que ya se cuenta con integración con el API.
+# Para poder observar todos las interfaces desarrolladas, vaya a la seccion de #Mockups
 
 <figure>
   <img src="images/05-clasificacion-desplegada.png" alt="Clasificación real realizada desde el frontend desplegado">
