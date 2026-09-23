@@ -133,7 +133,9 @@ El contrato utiliza ocho códigos arXiv y conserva valores nulos cuando una pred
 | Evaluación (`/evaluacion`)           | Página pagina que muestra resultados estáticos y verificables del test: métricas globales, F1 por clase, matriz y comparación de validación. |
 
 La integración final elimina respuestas ficticias en clasificación y monitoreo ya que ya se cuenta con integración con el API.
-# Para poder observar todos las interfaces desarrolladas, vaya a la seccion de #Mockups
+
+*Para poder observar todos las interfaces desarrolladas, vaya a la seccion de #Mockups*
+
 
 <figure>
   <img src="images/05-clasificacion-desplegada.png" alt="Clasificación real realizada desde el frontend desplegado">
@@ -218,6 +220,7 @@ El código se encuentra en [MAIA4401_MicroProyecto](https://github.com/germarodr
 - MLflow. https://mlflow.org/
 - DVC — Data Version Control. https://dvc.org/
 - Docker. https://docs.docker.com/
+
 ------------------------------------------------------------------------ 
-Universidad de los andes 2026
+Universidad de los Andes 2026
 -----------------------------------------------------------------------
